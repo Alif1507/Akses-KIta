@@ -7,14 +7,947 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="css/sytle.css" />
+    
   </head>
   <body>
     <div id="navbar"></div>
     
-    <!-- Your other content here -->
+    <!-- content -->
     <div id="hero"></div>
     <div id="tentangKami"></div>
-    <!-- Include your script file -->
+    <section class="flex flex-col items-center justify-center mt-24 px-4">
+    <div class="flex flex-col items-center justify-center text-center max-w-2xl">
+      <h1 class="bg-gradient-to-r from-[#10BCE0] to-[#4AFF09] bg-clip-text text-transparent font-extrabold text-4xl mb-4">
+        Layanan Publik Tersedia
+      </h1>
+      <p class="text-lg md:text-xl">
+        Temukan berbagai layanan publik yang dilengkapi dengan fasilitas aksesibel dan ramah<br class="hidden md:block" /> untuk penyandang disabilitas.
+      </p>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex flex-col gap-4 w-full max-w-7xl border rounded-2xl border-gray-200 bg-white/70 shadow-sm mt-10 p-5">
+      <label class="sr-only" for="search">Cari Layanan Publik</label>
+      <input id="search" type="text" class="bg-[#EAE9E9]/50 h-12 px-4 rounded-lg placeholder:text-gray-500"
+             placeholder="Cari Layanan Publik (nama, alamat, lokasi, deskripsi)" />
+
+      <div class="flex flex-wrap items-center gap-3 md:gap-4">
+        <span class="text-base font-medium">Kategori:</span>
+        <div id="categoryBar" class="flex flex-wrap gap-3">
+          <!-- Buttons injected by JS to manage active state cleanly -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="w-full max-w-7xl mt-10">
+      <div id="cards" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+      <!-- See more -->
+      <div class="flex justify-center mt-8">
+        <button id="seeMoreBtn" class="hidden rounded-xl bg-sky-500 px-5 py-3 font-semibold text-white hover:bg-sky-600 active:scale-[.99]">
+          Lihat Lebih Banyak
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div id="detailModal" class="fixed inset-0 z-50 hidden items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" data-dismiss="modal"></div>
+    <div class="relative mx-4 w-full max-w-2xl rounded-2xl bg-white shadow-2xl">
+      <div id="modalContent"></div>
+    </div>
+  </div>
+    <!-- JAVADCRIPT -->
     <script type="module" src="js/script.js"></script>
+    <script>
+      const SAMPLE = [
+    {
+      id: "KB1",
+      nama: "Puskesmas Kecamatan Taman Sari",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Barat",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Madu No. 10",
+      telepon: "(021) 6297752",
+      deskripsi: "Pelayanan kesehatan dasar di Kecamatan Taman Sari.",
+      aksesibilitas: ["Ramp", "Toilet"],
+      rating: 4.3,
+    },
+    {
+      id: "KB2",
+      nama: "Puskesmas Kelurahan Mangga Besar",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Barat",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Blustru No. 16",
+      telepon: "(021) 6595342",
+      deskripsi: "Pelayanan kesehatan di Kelurahan Mangga Besar.",
+      aksesibilitas: ["Parkir"],
+      rating: 4.2,
+    },
+    {
+      id: "KB3",
+      nama: "Puskesmas Kecamatan Kebon Jeruk",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Barat",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Kebon Jeruk No. 2",
+      telepon: "(021) 5482367",
+      deskripsi: "Pelayanan kesehatan di Kecamatan Kebon Jeruk.",
+      aksesibilitas: ["Toilet"],
+      rating: 4.1,
+    },
+    {
+      id: "KB4",
+      nama: "Kantor Kelurahan Cengkareng Timur",
+      jenis: "Administrasi",
+      lokasi: "Jakarta Barat",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Jl. Fajar Baru Utara No. 16A",
+      telepon: "021 6198529",
+      deskripsi: "Pelayanan administrasi kelurahan Cengkareng Timur.",
+      aksesibilitas: ["Loket Prioritas"],
+      rating: 4.2,
+    },
+    {
+      id: "KB5",
+      nama: "Kantor Kelurahan Joglo",
+      jenis: "Administrasi",
+      lokasi: "Jakarta Barat",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Jl. Joglo Raya No. 1",
+      telepon: "021 5864752",
+      deskripsi: "Pelayanan administrasi di Kelurahan Joglo.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.0,
+    },
+    {
+      id: "KB6",
+      nama: "Kantor Kelurahan Meruya Selatan",
+      jenis: "Administrasi",
+      lokasi: "Jakarta Barat",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Jl. H. Saaba Raya No. 7",
+      telepon: "021 5840796",
+      deskripsi: "Pelayanan administrasi di Kelurahan Meruya Selatan.",
+      aksesibilitas: ["Toilet"],
+      rating: 4.1,
+    },
+    {
+      id: "KB7",
+      nama: "Kantor Kelurahan Mangga Besar",
+      jenis: "Administrasi",
+      lokasi: "Jakarta Barat",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Jl. Mangga Besar III No. 1",
+      telepon: "021 6297674",
+      deskripsi: "Pelayanan administrasi di Kelurahan Mangga Besar.",
+      aksesibilitas: ["Loket Ramah Disabilitas"],
+      rating: 4.2,
+    },
+    {
+      id: "KB8",
+      nama: "BPJS Kesehatan – Kantor Cabang Jakbar",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Barat",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Ruko… (Alamat Umum – HQ Jakbar)",
+      telepon: "(021) 12345678",
+      deskripsi:
+        "Layanan pendaftaran dan informasional peserta BPJS Kesehatan wilayah Jakarta Barat.",
+      aksesibilitas: ["Ruang Tunggu", "Layanan Prioritas Lansia"],
+      rating: 4.0,
+    },
+    {
+      id: "KB9",
+      nama: "Jamkesda – Pelayanan Dinkes Jakbar",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Barat",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Dinas Kesehatan Jakarta Barat (Alamat Umum)",
+      telepon: "(021) 87654321",
+      deskripsi: "Layanan jaminan kesehatan daerah untuk warga Jakarta Barat.",
+      aksesibilitas: ["Ramp", "Loket Khusus"],
+      rating: 4.1,
+    },
+    {
+      id: "KB10",
+      nama: "BPJS Mobile Corner Jakbar",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Barat",
+      jam: "Senin–Jumat (09:00–14:00 WIB)",
+      alamat: "Mall XYZ Jakarta Barat (lokasi booth sementara)",
+      telepon: "(021) 11223344",
+      deskripsi:
+        "Pelayanan cepat pendaftaran BPJS dan informasi via mobile corner.",
+      aksesibilitas: ["Booth Aksesibel"],
+      rating: 4.3,
+    },
+    {
+      id: "KU1",
+      nama: "Puskesmas Kecamatan Pademangan",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Utara",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Budi Mulya",
+      telepon: "(021) 6452346",
+      deskripsi: "Pelayanan kesehatan dasar di Kecamatan Pademangan.",
+      aksesibilitas: ["Parkir"],
+      rating: 4.2,
+    },
+    {
+      id: "KU2",
+      nama: "Puskesmas Kelurahan Ancol",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Utara",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Ancol Barat VIII",
+      telepon: "(021) 6296483",
+      deskripsi: "Pelayanan kesehatan di Kelurahan Ancol.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.1,
+    },
+    {
+      id: "KU3",
+      nama: "Puskesmas Kecamatan Tanjung Priok",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Utara",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Bugis No. 63",
+      telepon: "(021) 443930348",
+      deskripsi: "Pelayanan kesehatan di Kecamatan Tanjung Priok.",
+      aksesibilitas: ["Toilet"],
+      rating: 4.0,
+    },
+    {
+      id: "KU4",
+      nama: "Puskesmas Kecamatan Koja",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Utara",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Walang Permai No. 39",
+      telepon: "(021) 4367168",
+      deskripsi: "Pelayanan kesehatan di Kecamatan Koja.",
+      aksesibilitas: ["Ramp", "Toilet"],
+      rating: 4.1,
+    },
+    {
+      id: "KU5",
+      nama: "Kantor Kelurahan Pademangan Barat",
+      jenis: "Administrasi",
+      lokasi: "Jakarta Utara",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Jl. Ampera Besar",
+      telepon: "(021) 6411276",
+      deskripsi: "Pelayanan administrasi di Kelurahan Pademangan Barat.",
+      aksesibilitas: ["Loket Prioritas"],
+      rating: 4.0,
+    },
+    {
+      id: "KU6",
+      nama: "Kantor Kelurahan Sunter Jaya I",
+      jenis: "Administrasi",
+      lokasi: "Jakarta Utara",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Jl. Sunter Jaya IVA No. 23",
+      telepon: "(021) 6517476",
+      deskripsi: "Pelayanan administrasi di Kelurahan Sunter Jaya I.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.1,
+    },
+    {
+      id: "KU7",
+      nama: "BPJS Kesehatan – Kantor Cabang Jakut",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Utara",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Gedung BPJS Jakarta Utara (Alamat umum)",
+      telepon: "(021) 22334455",
+      deskripsi:
+        "Layanan pendaftaran dan administrasi BPJS Kesehatan wilayah Jakarta Utara.",
+      aksesibilitas: ["Ruang Tunggu"],
+      rating: 4.2,
+    },
+    {
+      id: "KU8",
+      nama: "Jamkesda – Dinkes Jakarta Utara",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Utara",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Dinas Kesehatan Jakarta Utara (Alamat umum)",
+      telepon: "(021) 33445566",
+      deskripsi:
+        "Pelayanan jaminan kesehatan daerah untuk warga Jakarta Utara.",
+      aksesibilitas: ["Loket Khusus Lansia"],
+      rating: 4.0,
+    },
+    {
+      id: "KU9",
+      nama: "BPJS Mobile Corner Jakut",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Utara",
+      jam: "Senin–Jumat (09:00–14:00 WIB)",
+      alamat: "Mall ABC Jakarta Utara (lokasi booth sementara)",
+      telepon: "(021) 33221100",
+      deskripsi:
+        "Pelayanan cepat pendaftaran BPJS dan informasi via mobile corner.",
+      aksesibilitas: ["Booth Aksesibel"],
+      rating: 4.3,
+    },
+    {
+      id: "KU10",
+      nama: "Puskesmas Sunter Agung I (Mobile Clinic)",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Utara",
+      jam: "Sabtu (08:00–12:00 WIB)",
+      alamat: "Jl. Bambu Kuning Gg. II No.1",
+      telepon: "(021) 65302082",
+      deskripsi: "Layanan kesehatan mobile di Sunter Agung I.",
+      aksesibilitas: ["Mobile Ramp"],
+      rating: 4.1,
+    },
+    {
+      id: "KT1",
+      nama: "Puskesmas Kecamatan Cakung",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Timur",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Raya Bekasi KM 18",
+      telepon: "(021) 47881652",
+      deskripsi: "Pelayanan kesehatan di Kecamatan Cakung.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.2,
+    },
+    {
+      id: "KT2",
+      nama: "Puskesmas Kecamatan Cipayung",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Timur",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Monumen Pancasila Sakti",
+      telepon: "-",
+      deskripsi: "Pelayanan kesehatan di Kecamatan Cipayung.",
+      aksesibilitas: ["Parkir"],
+      rating: 4.0,
+    },
+    {
+      id: "KT3",
+      nama: "Puskesmas Kecamatan Ciracas",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Timur",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Cibubur I RT 003/01",
+      telepon: "-",
+      deskripsi: "Pelayanan kesehatan di Kecamatan Ciracas.",
+      aksesibilitas: ["Toilet"],
+      rating: 4.1,
+    },
+    {
+      id: "KT4",
+      nama: "Puskesmas Kecamatan Jatinegara",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Timur",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Matraman Raya No. 220",
+      telepon: "-",
+      deskripsi: "Pelayanan kesehatan di Kecamatan Jatinegara.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.1,
+    },
+    {
+      id: "KT5",
+      nama: "Kantor Kelurahan Cakung Barat",
+      jenis: "Administrasi",
+      lokasi: "Jakarta Timur",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Jl. Cakung Barat (alamat umum)",
+      telepon: "(021) …",
+      deskripsi: "Pelayanan administrasi di Kelurahan Cakung Barat.",
+      aksesibilitas: ["Loket Prioritas"],
+      rating: 4.0,
+    },
+    {
+      id: "KT6",
+      nama: "Kantor Kelurahan Kebon Baru",
+      jenis: "Administrasi",
+      lokasi: "Jakarta Timur",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Jl. Asem Baris Raya 101, Tebet",
+      telepon: "021-8294447",
+      deskripsi: "Pelayanan administrasi di Kelurahan Kebon Baru.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.1,
+    },
+    {
+      id: "KT7",
+      nama: "BPJS Kesehatan – Kantor Cabang Jaktim",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Timur",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Gedung BPJS Jakarta Timur (alamat umum)",
+      telepon: "(021) 55667788",
+      deskripsi: "Layanan administrasi BPJS Kesehatan wilayah Jakarta Timur.",
+      aksesibilitas: ["Ruang Tunggu"],
+      rating: 4.2,
+    },
+    {
+      id: "KT8",
+      nama: "Jamkesda – Dinkes Jakarta Timur",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Timur",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Dinas Kesehatan Jakarta Timur (alamat umum)",
+      telepon: "(021) 66554433",
+      deskripsi: "Pelayanan jaminan kesehatan daerah bagi warga Jaktim.",
+      aksesibilitas: ["Loket Khusus Lansia"],
+      rating: 4.0,
+    },
+    {
+      id: "KT9",
+      nama: "BPJS Mobile Corner Jaktim",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Timur",
+      jam: "Senin–Jumat (09:00–14:00 WIB)",
+      alamat: "Mall Jaktim (booth sementara)",
+      telepon: "(021) 99887766",
+      deskripsi:
+        "Pelayanan cepat pendaftaran BPJS dan info melalui mobile corner.",
+      aksesibilitas: ["Booth Aksesibel"],
+      rating: 4.3,
+    },
+    {
+      id: "KT10",
+      nama: "Puskesmas Kecamatan Matraman",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Timur",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Kebon Kelapa Raya 29",
+      telepon: "(021) 8581957",
+      deskripsi: "Pelayanan kesehatan di Kecamatan Matraman.",
+      aksesibilitas: ["Ramp", "Parkir"],
+      rating: 4.2,
+    },
+
+    {
+      id: "KP8",
+      nama: "Puskesmas Kecamatan Gambir",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Pusat",
+      jam: "Senin–Jumat (default operasional)",
+      alamat: "Jl. Tanah Abang I/10",
+      telepon: "(021) 3810051, 3844256",
+      deskripsi: "Pelayanan kesehatan dasar di Kecamatan Gambir.",
+      aksesibilitas: ["Ramp", "Toilet"],
+      rating: 4.4,
+    },
+    {
+      id: "KP11",
+      nama: "Puskesmas Kelurahan Harapan Mulya",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Pusat",
+      jam: "Senin–Jumat (default operasional)",
+      alamat: "Jl. Harapan Mulya I",
+      telepon: "(021) 4220947",
+      deskripsi: "Pelayanan kesehatan di Kelurahan Harapan Mulya.",
+      aksesibilitas: ["Toilet"],
+      rating: 4.2,
+    },
+    {
+      id: "KP24",
+      nama: "Puskesmas Kecamatan Cempaka Putih",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Pusat",
+      jam: "Senin–Jumat (default operasional)",
+      alamat: "Jl. Rawasari Raya, Rawa Kerbo",
+      telepon: "(021) 4219548",
+      deskripsi: "Puskesmas Kecamatan Cempaka Putih.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.3,
+    },
+    {
+      id: "KP16",
+      nama: "Puskesmas Pembantu Johar Baru III",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Pusat",
+      jam: "Senin–Jumat (default operasional)",
+      alamat: "Jalan Kramat Jaya Baru Blok E No. 6, RT.013/RW.001",
+      telepon: "(021) 4219544",
+      deskripsi: "Puskesmas Pembantu di kawasan Johar Baru.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.1,
+    },
+    {
+      id: "KP17",
+      nama: "Puskesmas Pembantu Galur",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Pusat",
+      jam: "Senin–Jumat (default operasional)",
+      alamat: "Jalan Rawa Tengah, Gang 9, RT.011/RW.006",
+      telepon: "(021) 4248618",
+      deskripsi: "Puskesmas Pembantu di Kelurahan Galur.",
+      aksesibilitas: ["Toilet"],
+      rating: 4.0,
+    },
+    {
+      id: "KP_ADM1",
+      nama: "Suku Dinas Kesehatan Jakarta Pusat",
+      jenis: "Administrasi",
+      lokasi: "Jakarta Pusat",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Percetakan Negara VII No. 82, Rawasari",
+      telepon: "(021) 4247306",
+      deskripsi: "Layanan administrasi kesehatan DKI Jakarta – wilayah Pusat.",
+      aksesibilitas: ["Loket Administrasi"],
+      rating: 4.2,
+    },
+    {
+      id: "KP_INS1",
+      nama: "BPJS Kesehatan – Kantor Cabang Jakpus",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Pusat",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Gedung BPJS Kesehatan Jakarta Pusat (alamat umum)",
+      telepon: "(021) 11223355",
+      deskripsi:
+        "Layanan pendaftaran dan informasi peserta BPJS Kesehatan Jakarta Pusat.",
+      aksesibilitas: ["Ruang Tunggu", "Layanan Prioritas"],
+      rating: 4.1,
+    },
+    {
+      id: "KP_INS2",
+      nama: "Jamkesda – Dinkes Jakarta Pusat",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Pusat",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Dinas Kesehatan Jakarta Pusat (alamat umum)",
+      telepon: "(021) 22334466",
+      deskripsi:
+        "Pelayanan jaminan kesehatan daerah untuk warga Jakarta Pusat.",
+      aksesibilitas: ["Loket Khusus Lansia"],
+      rating: 4.0,
+    },
+    {
+      id: "KP_INS3",
+      nama: "BPJS Mobile Corner Jakpus",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Pusat",
+      jam: "Senin–Jumat (09:00–14:00 WIB)",
+      alamat: "Mall XYZ Jakarta Pusat (booth sementara)",
+      telepon: "(021) 55667700",
+      deskripsi:
+        "Pelayanan cepat pendaftaran BPJS dan informasi via mobile corner.",
+      aksesibilitas: ["Booth Aksesibel"],
+      rating: 4.3,
+    },
+
+    {
+      id: "KS46",
+      nama: "Puskesmas Kecamatan Mampang Prapatan",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Selatan",
+      jam: "Senin–Jumat (default operasional)",
+      alamat: "Jl. Letjend Tendean No. 9",
+      telepon: "(021) 7943509",
+      deskripsi: "Pelayanan kesehatan dasar di Kecamatan Mampang Prapatan.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.3,
+    },
+    {
+      id: "KS_CMND",
+      nama: "Puskesmas Kecamatan Cilandak",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Selatan",
+      jam: "24 Jam",
+      alamat: "Jl. Komplek BNI 46 No. 57, Cilandak",
+      telepon: "(021) 7694279",
+      deskripsi: "Puskesmas Kecamatan Cilandak dengan layanan 24 jam.",
+      aksesibilitas: ["Ramp", "Toilet"],
+      rating: 4.5,
+    },
+    {
+      id: "KS_PCRAN",
+      nama: "Puskesmas Kecamatan Pancoran",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Selatan",
+      jam: "Senin–Jumat (default operasional)",
+      alamat: "Jl. Potlot II/6, Duren Tiga, Pancoran",
+      telepon: "(021) 7974024",
+      deskripsi: "Pelayanan kesehatan dasar di Kecamatan Pancoran.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.2,
+    },
+    {
+      id: "KS_KBRU",
+      nama: "Puskesmas Kecamatan Kebayoran Baru",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Selatan",
+      jam: "Senin–Jumat (default operasional)",
+      alamat: "Jl. Iskandarsyah Raya, Kebayoran Baru",
+      telepon: "(021) 7220274",
+      deskripsi: "Pelayanan kesehatan di Kecamatan Kebayoran Baru.",
+      aksesibilitas: ["Toilet"],
+      rating: 4.1,
+    },
+    {
+      id: "KS_PSMNGI",
+      nama: "Puskesmas Kelurahan Pejaten Timur",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Selatan",
+      jam: "Senin–Jumat (default operasional)",
+      alamat: "Jl. Swadaya I No. 28, Pejaten Timur",
+      telepon: "(021) 7812870",
+      deskripsi: "Pelayanan kesehatan di Pejaten Timur.",
+      aksesibilitas: ["Ramp"],
+      rating: 4.0,
+    },
+    {
+      id: "KS_ADM1",
+      nama: "Suku Dinas Kesehatan Jakarta Selatan",
+      jenis: "Administrasi",
+      lokasi: "Jakarta Selatan",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Jl. Radio I No. 8, Kebayoran Baru",
+      telepon: "(021) 7395287",
+      deskripsi:
+        "Layanan administrasi kesehatan DKI Jakarta – wilayah Selatan.",
+      aksesibilitas: ["Loket Administrasi"],
+      rating: 4.2,
+    },
+    {
+      id: "KS_INS1",
+      nama: "BPJS Kesehatan – Kantor Cabang Jaksel",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Selatan",
+      jam: "Senin–Jumat (08:00–16:00 WIB)",
+      alamat: "Gedung BPJS Kesehatan Jakarta Selatan (alamat umum)",
+      telepon: "(021) 33445588",
+      deskripsi:
+        "Layanan pendaftaran dan informasi peserta BPJS Kesehatan Jakarta Selatan.",
+      aksesibilitas: ["Ruang Tunggu"],
+      rating: 4.1,
+    },
+    {
+      id: "KS_INS2",
+      nama: "Jamkesda – Dinkes Jakarta Selatan",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Selatan",
+      jam: "Senin–Jumat (08:00–15:00 WIB)",
+      alamat: "Dinas Kesehatan Jakarta Selatan (alamat umum)",
+      telepon: "(021) 44556677",
+      deskripsi:
+        "Pelayanan jaminan kesehatan daerah untuk warga Jakarta Selatan.",
+      aksesibilitas: ["Loket Khusus Lansia"],
+      rating: 4.0,
+    },
+    {
+      id: "KS_INS3",
+      nama: "BPJS Mobile Corner Jaksel",
+      jenis: "Asuransi",
+      lokasi: "Jakarta Selatan",
+      jam: "Senin–Jumat (09:00–14:00 WIB)",
+      alamat: "Mall ABC Jakarta Selatan (booth sementara)",
+      telepon: "(021) 55660077",
+      deskripsi:
+        "Pelayanan cepat pendaftaran BPJS dan informasi via mobile corner.",
+      aksesibilitas: ["Booth Aksesibel"],
+      rating: 4.3,
+    },
+    {
+      id: "KS_KYSI",
+      nama: "Puskesmas Kelurahan Pasar Minggu I",
+      jenis: "Kesehatan",
+      lokasi: "Jakarta Selatan",
+      jam: "Senin–Jumat (default operasional)",
+      alamat: "Jl. B II Komp. AL Rawa Bambu, Pasar Minggu I",
+      telepon: "(021) 7829927",
+      deskripsi: "Pelayanan kesehatan di Kelurahan Pasar Minggu I.",
+      aksesibilitas: ["Toilet"],
+      rating: 4.0,
+    },
+  ];
+      // Pakai window.data jika sudah ada, fallback ke SAMPLE agar halaman tidak kosong
+     const data = Array.isArray(window.data) && window.data.length ? window.data : SAMPLE;
+
+    // ====== STATE ======
+    let activeCategory = 'Semua';
+    let query = '';
+    let visible = 6; // tampilkan 6 dulu
+
+    const categories = ['Semua', 'Administrasi', 'Asuransi', 'Kesehatan'];
+
+    // ====== HELPERS ======
+    const el = (sel) => document.querySelector(sel);
+
+    function normalizePhone(str = '') {
+      const digits = String(str).replace(/\D+/g, '');
+      if (!digits) return '';
+      // jika dimulai 0, jadikan +62
+      if (digits.startsWith('0')) return '+62' + digits.slice(1);
+      if (digits.startsWith('62')) return '+' + digits;
+      if (digits.length <= 10) return digits; // biarkan saja
+      return '+' + digits;
+    }
+
+    function escapeHtml(str = '') {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // ====== THEME MAP (global) ======
+    const THEMES = {
+      'Kesehatan': {
+        border: 'border-emerald-300', ring: 'ring-emerald-400/40', badge: 'bg-emerald-500', accent: 'text-emerald-600', cta: 'bg-emerald-500 hover:bg-emerald-600'
+      },
+      'Administrasi': {
+        border: 'border-sky-300', ring: 'ring-sky-400/40', badge: 'bg-sky-500', accent: 'text-sky-600', cta: 'bg-sky-500 hover:bg-sky-600'
+      },
+      'Asuransi': {
+        border: 'border-rose-300', ring: 'ring-rose-400/40', badge: 'bg-rose-500', accent: 'text-rose-600', cta: 'bg-rose-500 hover:bg-rose-600'
+      },
+      'default': {
+        border: 'border-gray-300', ring: 'ring-gray-400/40', badge: 'bg-gray-500', accent: 'text-gray-600', cta: 'bg-gray-600 hover:bg-gray-700'
+      }
+    };
+    function getTheme(jenis) { return THEMES[jenis] || THEMES['default']; }
+
+    function itemCard(d) {
+      const telHref = normalizePhone(d.telepon);
+      const akses = Array.isArray(d.aksesibilitas) ? d.aksesibilitas.map(a => `<span class="rounded-full border border-gray-300 px-3 py-1 text-sm">${escapeHtml(a)}</span>`).join('') : '';
+      const t = getTheme(d.jenis);
+
+      return `
+        <article class="relative rounded-2xl border ${t.border} bg-white shadow-sm overflow-hidden">
+          <div class="pointer-events-none absolute inset-0 rounded-2xl ring-1 ${t.ring}"></div>
+          <header class="px-6 pt-6">
+            <div class="flex items-start justify-between gap-3">
+              <h2 class="text-2xl font-extrabold leading-tight text-gray-900">
+                ${escapeHtml(d.nama)}
+                <span class="block text-gray-800 text-base">${escapeHtml(d.jenis)}</span>
+              </h2>
+              <div class="flex items-center gap-1 ${t.accent} text-lg font-semibold" aria-label="Rating ${escapeHtml(d.rating)}">
+                ${escapeHtml(d.rating)}
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                </svg>
+              </div>
+            </div>
+            <span class="mt-4 inline-flex items-center rounded-full ${t.badge} px-4 py-1.5 text-white font-semibold">
+              ${escapeHtml(d.jenis)}
+            </span>
+          </header>
+
+          <div class="px-6 py-5 space-y-4 text-gray-700">
+            <div class="flex gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-none text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM19.5 10.5c0 7.5-7.5 11.25-7.5 11.25S4.5 18 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
+              </svg>
+              <p class="leading-relaxed">
+                <span class="font-medium text-gray-900">${escapeHtml(d.lokasi)}</span> • ${escapeHtml(d.alamat)}
+              </p>
+            </div>
+
+            <div class="flex gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-none text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2A10 10 0 1 1 2 12a10 10 0 0 1 20 0Z"/>
+              </svg>
+              <p class="leading-relaxed">${escapeHtml(d.jam)}</p>
+            </div>
+
+            <div class="flex gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-none text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 0 0 2.25-2.25v-1.1a1.5 1.5 0 0 0-1.03-1.427l-3.42-1.14a1.5 1.5 0 0 0-1.6.45l-.8.95a12.02 12.02 0 0 1-5.78-5.78l.95-.8a1.5 1.5 0 0 0 .45-1.6l-1.14-3.42A1.5 1.5 0 0 0 5.6 2.25H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
+              </svg>
+              <p class="leading-relaxed">${escapeHtml(d.telepon)}</p>
+            </div>
+
+            <p class="text-gray-600">${escapeHtml(d.deskripsi)}</p>
+
+            <div class="pt-2">
+              <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ${t.accent}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm-1 5h2l1.5 3H20a1 1 0 1 1 0 2h-5.8l-.83 3.12a2 2 0 0 1-1.94 1.46H9a1 1 0 1 1 0-2h1.43l.58-2.18L9 11.5V18a1 1 0 1 1-2 0V9a2 2 0 0 1 2-2h2Z"/>
+                </svg>
+                <h3 class="font-semibold text-gray-900">Fitur Aksesibilitas:</h3>
+              </div>
+              <div class="mt-3 flex flex-wrap gap-2">${akses}</div>
+            </div>
+          </div>
+
+          <div class="px-6 pb-6 pt-1 flex gap-3">
+            <a href="tel:${telHref}"
+               class="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 px-4 py-3 font-semibold text-gray-800 hover:bg-gray-50 active:scale-[.99]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 0 0 2.25-2.25v-1.1a1.5 1.5 0 0 0-1.03-1.427l-3.42-1.14a1.5 1.5 0 0 0-1.6.45l-.8.95a12.02 12.02 0 0 1-5.78-5.78l.95-.8a1.5 1.5 0 0 0 .45-1.6l-1.14-3.42A1.5 1.5 0 0 0 5.6 2.25H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
+              </svg>
+              Hubungi
+            </a>
+            <a href="#" data-id="${escapeHtml(d.id)}" aria-controls="detailModal"
+               class="btn-detail flex-1 inline-flex items-center justify-center rounded-xl ${t.cta} px-4 py-3 font-semibold text-white active:scale-[.99]">Lihat Detail</a>
+          </div>
+        </article>
+      `;
+    }
+
+    function applyFilters() {
+      const q = query.trim().toLowerCase();
+      let list = data.filter(d => {
+        const catOk = activeCategory === 'Semua' ? true : String(d.jenis).toLowerCase() === activeCategory.toLowerCase();
+        if (!catOk) return false;
+        if (!q) return true;
+        const hay = `${d.nama} ${d.jenis} ${d.lokasi} ${d.alamat} ${d.deskripsi}`.toLowerCase();
+        return hay.includes(q);
+      });
+      return list;
+    }
+
+    function renderCards() {
+      const list = applyFilters();
+      const container = el('#cards');
+      const seeMore = el('#seeMoreBtn');
+
+      const toShow = list.slice(0, visible);
+      container.innerHTML = toShow.map(itemCard).join(''); // <- penting: .join('') biar ga ada koma
+
+      // tampilkan tombol jika masih ada sisa
+      if (list.length > visible) {
+        seeMore.classList.remove('hidden');
+      } else {
+        seeMore.classList.add('hidden');
+      }
+    }
+
+    function renderCategories() {
+      const bar = el('#categoryBar');
+      bar.innerHTML = categories.map(cat => {
+        const isActive = cat === activeCategory;
+        return `
+          <button type="button" data-cat="${cat}"
+            class="px-3 py-1.5 rounded-2xl text-sm md:text-base font-medium focus:outline-none ${isActive ? 'bg-[#1296C7] text-white' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'}">
+            ${cat}
+          </button>
+        `;
+      }).join('');
+
+      bar.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeCategory = btn.getAttribute('data-cat');
+          visible = 6; // reset pagination saat ganti kategori
+          renderCategories();
+          renderCards();
+        });
+      });
+    }
+
+    // ====== MODAL UTILS ======
+    const modalRoot = document.getElementById('detailModal');
+    const modalInner = document.getElementById('modalContent');
+
+    function modalTemplate(d) {
+      const t = getTheme(d.jenis);
+      const telHref = normalizePhone(d.telepon);
+      const akses = Array.isArray(d.aksesibilitas) ? d.aksesibilitas.map(a => `<span class='rounded-full border border-gray-300 px-3 py-1 text-sm'>${escapeHtml(a)}</span>`).join('') : '';
+      return `
+        <header class="px-6 pt-6 pb-3 border-b ${t.border.replace('border-','border-b-')}">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h2 id="detailTitle" class="text-2xl font-extrabold text-gray-900">${escapeHtml(d.nama)}</h2>
+              <div class="mt-2 flex items-center gap-2">
+                <span class="inline-flex items-center rounded-full ${t.badge} px-3 py-1 text-white text-sm font-semibold">${escapeHtml(d.jenis)}</span>
+                <span class="inline-flex items-center gap-1 ${t.accent} text-sm font-semibold" aria-label="Rating ${escapeHtml(d.rating)}">
+                  ${escapeHtml(d.rating)}
+                  <svg xmlns='http://www.w3.org/2000/svg' class='h-4 w-4 fill-current' viewBox='0 0 24 24'><path d='M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/></svg>
+                </span>
+              </div>
+            </div>
+            <button class="shrink-0 rounded-xl border border-gray-300 px-3 py-2 hover:bg-gray-50" data-dismiss="modal" aria-label="Tutup">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </header>
+        <div class="px-6 py-5 space-y-4">
+          <div class="flex gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-none text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM19.5 10.5c0 7.5-7.5 11.25-7.5 11.25S4.5 18 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
+            <p class="leading-relaxed"><span class="font-medium text-gray-900">${escapeHtml(d.lokasi)}</span> • ${escapeHtml(d.alamat)}</p>
+          </div>
+          <div class="flex gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-none text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2A10 10 0 1 1 2 12a10 10 0 0 1 20 0Z"/></svg>
+            <p class="leading-relaxed">${escapeHtml(d.jam)}</p>
+          </div>
+          <div class="flex gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-none text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 0 0 2.25-2.25v-1.1a1.5 1.5 0 0 0-1.03-1.427l-3.42-1.14a1.5 1.5 0 0 0-1.6.45l-.8.95a12.02 12.02 0 0 1-5.78-5.78l.95-.8a1.5 1.5 0 0 0 .45-1.6l-1.14-3.42A1.5 1.5 0 0 0 5.6 2.25H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>
+            <a class="leading-relaxed underline" href="tel:${telHref}">${escapeHtml(d.telepon)}</a>
+          </div>
+          <p class="text-gray-700">${escapeHtml(d.deskripsi)}</p>
+          <div>
+            <h4 class="font-semibold text-gray-900 mb-2">Fitur Aksesibilitas</h4>
+            <div class="flex flex-wrap gap-2">${akses}</div>
+          </div>
+        </div>
+        <footer class="px-6 pb-6 pt-1 flex gap-3">
+          <a href="tel:${telHref}" class="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 px-4 py-3 font-semibold text-gray-800 hover:bg-gray-50">
+            Hubungi
+          </a>
+          <button class="flex-1 inline-flex items-center justify-center rounded-xl ${t.cta} px-4 py-3 font-semibold text-white" data-dismiss="modal">Tutup</button>
+        </footer>
+      `;
+    }
+
+    function openModalById(id) {
+      const d = (Array.isArray(window.data) && window.data.length ? window.data : data).find(x => String(x.id) === String(id));
+      if (!d) return;
+      modalInner.innerHTML = modalTemplate(d);
+      modalRoot.classList.remove('hidden');
+      modalRoot.classList.add('flex');
+      document.body.classList.add('overflow-hidden');
+      const closeBtn = modalRoot.querySelector('[data-dismiss="modal"]');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeModal() {
+      modalRoot.classList.add('hidden');
+      modalRoot.classList.remove('flex');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // Delegasi klik untuk tombol detail & handler close
+    document.addEventListener('click', (e) => {
+      const detailBtn = e.target.closest('.btn-detail');
+      if (detailBtn) {
+        e.preventDefault();
+        const id = detailBtn.getAttribute('data-id');
+        openModalById(id);
+        return;
+      }
+      if (e.target && e.target.getAttribute('data-dismiss') === 'modal') {
+        e.preventDefault();
+        closeModal();
+      }
+    });
+
+    // Tutup via ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modalRoot.classList.contains('hidden')) closeModal();
+    });
+
+// ====== INIT ======
+    el('#search').addEventListener('input', (e) => {
+      query = e.target.value;
+      visible = 6; // reset pagination saat search
+      renderCards();
+    });
+
+    el('#seeMoreBtn').addEventListener('click', () => {
+      visible += 6;
+      renderCards();
+    });
+
+    renderCategories();
+    renderCards();
+    </script>
   </body>
 </html>

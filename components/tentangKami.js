@@ -81,7 +81,7 @@ function tentangKami() {
       .
     </div>
     <h1 class="poppins-bold text-2xl my-3">5+</h1>
-    <h2 class="poppins-light">Lokasi Di Bandung</h2>
+    <h2 class="poppins-light">Lokasi Di Jakarta</h2>
   </div>
 </section>
 

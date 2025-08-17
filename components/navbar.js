@@ -1,6 +1,6 @@
 function navbar() {
   return $(`
-      <nav class="flex items-center justify-around poppins-regular h-[96px] fixed w-screen top-0 bg-white">
+      <nav class="flex items-center justify-around poppins-regular h-[96px] fixed w-screen top-0 bg-white z-50">
       <div>
         <img class="h-[80px] w-[80px]" src="img/logo.png" alt="LOGO">
       </div>
