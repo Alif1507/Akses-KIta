@@ -4,7 +4,7 @@ function navbar() {
       <div>
         <img class="h-[80px] w-[80px]" src="img/logo.png" alt="LOGO">
       </div>
-      <div class="flex items-center gap-4">
+      <div class="flex justify-center items-center gap-4">
         <a href="#">Home</a>
         <a href="#">Tentang Kami</a>
         <a href="#">Cerita</a>
