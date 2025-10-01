@@ -1,469 +1,915 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Akses Kita - Panduan</title>
-  <link rel="icon" type="image/png" href="/img/logo.png" />
-  <link rel="stylesheet" href="/css/sytle.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<html lang="id" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Akses Kita - Panduan</title>
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+    <link rel="stylesheet" href="/css/sytle.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+    <!-- THEME BOOTSTRAP: set .dark di awal (tanpa FOUC) -->
+    <script>
+      (function () {
+        const ls = localStorage.getItem("theme");
+        const systemDark =
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const shouldDark = ls ? ls === "dark" : systemDark;
+        document.documentElement.classList.toggle("dark", shouldDark);
+      })();
+    </script>
 
-</head>
+    <style>
+      /* animasi halus latar belakang */
+      @keyframes float-slow {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+      .animate-float-slow {
+        animation: float-slow 8s ease-in-out infinite;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .animate-float-slow {
+          animation: none !important;
+        }
+        .will-animate {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
 
-<body class="relative min-h-screen antialiased bg-white text-gray-900">
-  <!-- Back button -->
-  <a href="index.html"
-     class="fixed z-50 top-4 left-4 inline-flex items-center gap-2 rounded-3xl px-4 py-2 text-white bg-gradient-to-r from-[#C1E8EF] via-[#036DA7] to-[#4AFF09] shadow-lg will-animate hover:scale-105 active:scale-100 transition-all duration-300">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-         fill="none" stroke="currentColor" stroke-width="1.5" class="size-5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
-    </svg>
-    <span class="font-medium">Kembali</span>
-  </a>
+  <body
+    class="relative min-h-screen antialiased bg-white dark:bg-white text-gray-900 dark:text-black"
+  >
+    <!-- Back button -->
+    <a
+      href="index.html"
+      class="fixed z-50 top-4 left-4 inline-flex items-center gap-2 rounded-3xl px-4 py-2 text-white bg-gradient-to-r from-[#C1E8EF] via-[#036DA7] to-[#4AFF09] shadow-lg will-animate hover:scale-105 active:scale-100 transition-all duration-300"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        class="size-5"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+        />
+      </svg>
+      <span class="font-medium">Kembali</span>
+    </a>
 
-  <!-- Decorative background -->
-  <img src="/img/bgThings/bg-pandu1.png" alt="" aria-hidden="true"
-       class="pointer-events-none select-none animate-float-slow absolute left-0 top-0 -z-10 opacity-60 max-w-[40%] md:max-w-[28%]" />
-  <img src="/img/bgThings/bg-pandu2.png" alt="" aria-hidden="true"
-       class="pointer-events-none select-none animate-float-slow absolute right-0 top-1/2 -translate-y-1/2 -z-10 opacity-60 max-w-[42%] md:max-w-[30%]" />
-  <img src="/img/bgThings/bg-pandu3.png" alt="" aria-hidden="true"
-       class="pointer-events-none select-none animate-float-slow absolute left-0 bottom-0 -z-10 opacity-60 max-w-[36%] md:max-w-[26%]" />
+    <!-- THEME TOGGLE (fixed kanan atas) -->
+    <button
+      id="themeToggle"
+      class="fixed top-4 right-4 z-50 rounded-full p-2 bg-white/80 dark:bg-slate-800/80 border border-gray-200 dark:border-white/10 backdrop-blur shadow hover:scale-105 transition will-animate"
+      aria-label="Toggle dark mode"
+    >
+      <!-- Icon Moon (saat light) -->
+      <svg
+        class="h-6 w-6 block dark:hidden text-gray-700"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M20.354 15.354A9 9 0 018.646 3.646 9 9 0 1012 21a9.003 9.003 0 008.354-5.646z"
+        />
+      </svg>
+      <!-- Icon Sun (saat dark) -->
+      <svg
+        class="h-6 w-6 hidden dark:block text-yellow-300"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 3v2m0 14v2m8-8h-2M6 12H4m12.364 6.364l-1.414-1.414M7.05 7.05 5.636 5.636m12.728 0-1.414 1.414M7.05 16.95l-1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z"
+        />
+      </svg>
+    </button>
 
-  <!-- Header -->
-  <header class="pt-24 pb-6 px-4">
-    <h1 class="text-2xl md:text-4xl font-extrabold text-center tracking-tight">
-      Panduan Pembuatan Kartu
-    </h1>
-    <p class="mt-2 text-center text-gray-600 max-w-2xl mx-auto">
-      Pilih jenis kartu untuk melihat informasi dan langkah pembuatan.
-    </p>
-  </header>
+    <!-- Decorative background -->
+    <img
+      src="/img/bgThings/bg-pandu1.png"
+      alt=""
+      aria-hidden="true"
+      class="pointer-events-none select-none animate-float-slow absolute left-0 top-0 -z-10 opacity-60 max-w-[40%] md:max-w-[28%]"
+    />
+    <img
+      src="/img/bgThings/bg-pandu2.png"
+      alt=""
+      aria-hidden="true"
+      class="pointer-events-none select-none animate-float-slow absolute right-0 top-1/2 -translate-y-1/2 -z-10 opacity-60 max-w-[42%] md:max-w-[30%]"
+    />
+    <img
+      src="/img/bgThings/bg-pandu3.png"
+      alt=""
+      aria-hidden="true"
+      class="pointer-events-none select-none animate-float-slow absolute left-0 bottom-0 -z-10 opacity-60 max-w-[36%] md:max-w-[26%]"
+    />
 
-  <!-- Grid -->
-  <main class="pb-24 px-4">
-    <div class="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 place-items-stretch">
+    <!-- Header -->
+    <header class="pt-24 pb-6 px-4">
+      <h1
+        class="text-2xl md:text-4xl font-extrabold text-center tracking-tight"
+      >
+        Panduan Pembuatan Kartu
+      </h1>
+      <p
+        class="mt-2 text-center text-gray-600 dark:text-slate-300/80 max-w-2xl mx-auto"
+      >
+        Pilih jenis kartu untuk melihat informasi dan langkah pembuatan.
+      </p>
+    </header>
 
-      <!-- KTP -->
-<button id="card-ktp"
-  class="card group will-animate rounded-2xl border border-white/60 bg-white/70 backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 opacity-0 translate-y-6"
-  data-reveal aria-haspopup="dialog"
-  data-modal-target="modal-ktp">
-  <img src="/img/bgThings/ktp.png" alt="KTP" class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105" />
-  <h2 class="mt-4 text-center text-base md:text-lg font-semibold">Kartu Tanda Penduduk</h2>
-</button>
+    <!-- Grid -->
+    <main class="pb-24 px-4">
+      <div
+        class="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 place-items-stretch"
+      >
+        <!-- KTP -->
+        <button
+          id="card-ktp"
+          class="card group will-animate rounded-2xl border bg-white dark:bg-white text-gray-900 dark:text-black backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 dark:focus-visible:ring-cyan-700 opacity-0 translate-y-6"
+          data-reveal
+          aria-haspopup="dialog"
+          data-modal-target="modal-ktp"
+        >
+          <img
+            src="/img/bgThings/ktp.png"
+            alt="KTP"
+            class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105"
+          />
+          <h2 class="mt-4 text-center text-base md:text-lg font-semibold">
+            Kartu Tanda Penduduk
+          </h2>
+        </button>
 
-<!-- KIA -->
-<button
-  class="card group will-animate rounded-2xl border border-white/60 bg-white/70 backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 opacity-0 translate-y-6"
-  data-reveal aria-haspopup="dialog"
-  data-modal-target="modal-kia">
-  <img src="/img/bgThings/kia.png" alt="KIA" class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105" />
-  <h2 class="mt-4 text-center text-base md:text-lg font-semibold">Kartu Identitas Anak</h2>
-</button>
+        <!-- KIA -->
+        <button
+          class="card group will-animate rounded-2xl border bg-white dark:bg-white text-gray-900 dark:text-black backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 dark:focus-visible:ring-cyan-700 opacity-0 translate-y-6"
+          data-reveal
+          aria-haspopup="dialog"
+          data-modal-target="modal-kia"
+        >
+          <img
+            src="/img/bgThings/kia.png"
+            alt="KIA"
+            class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105"
+          />
+          <h2 class="mt-4 text-center text-base md:text-lg font-semibold">
+            Kartu Identitas Anak
+          </h2>
+        </button>
 
-<!-- KIS -->
-<button
-  class="card group will-animate rounded-2xl border border-white/60 bg-white/70 backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 opacity-0 translate-y-6"
-  data-reveal aria-haspopup="dialog"
-  data-modal-target="modal-kis">
-  <img src="/img/bgThings/kis.png" alt="KIS" class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105" />
-  <h2 class="mt-4 text-center text-base md:text-lg font-semibold">Kartu Indonesia Sehat</h2>
-</button>
+        <!-- KIS -->
+        <button
+          class="card group will-animate rounded-2xl border bg-white dark:bg-white text-gray-900 dark:text-black backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 dark:focus-visible:ring-cyan-700 opacity-0 translate-y-6"
+          data-reveal
+          aria-haspopup="dialog"
+          data-modal-target="modal-kis"
+        >
+          <img
+            src="/img/bgThings/kis.png"
+            alt="KIS"
+            class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105"
+          />
+          <h2 class="mt-4 text-center text-base md:text-lg font-semibold">
+            Kartu Indonesia Sehat
+          </h2>
+        </button>
 
-<!-- BPJS -->
-<button
-  class="card group will-animate rounded-2xl border border-white/60 bg-white/70 backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 opacity-0 translate-y-6"
-  data-reveal aria-haspopup="dialog"
-  data-modal-target="modal-bpjs">
-  <img src="/img/bgThings/bpjs.png" alt="BPJS" class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105" />
-  <h2 class="mt-4 text-center text-base md:text-lg font-semibold">Kartu BPJS</h2>
-</button>
+        <!-- BPJS -->
+        <button
+          class="card group will-animate rounded-2xl border bg-white dark:bg-white text-gray-900 dark:text-black backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 dark:focus-visible:ring-cyan-700 opacity-0 translate-y-6"
+          data-reveal
+          aria-haspopup="dialog"
+          data-modal-target="modal-bpjs"
+        >
+          <img
+            src="/img/bgThings/bpjs.png"
+            alt="BPJS"
+            class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105"
+          />
+          <h2 class="mt-4 text-center text-base md:text-lg font-semibold">
+            Kartu BPJS
+          </h2>
+        </button>
 
-<!-- BSI -->
-<button
-  class="card group will-animate rounded-2xl border border-white/60 bg-white/70 backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 opacity-0 translate-y-6"
-  data-reveal aria-haspopup="dialog"
-  data-modal-target="modal-bsi">
-  <img src="/img/bgThings/bsi.png" alt="BSI" class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105" />
-  <h2 class="mt-4 text-center text-base md:text-lg font-semibold">Kartu BSI</h2>
-</button>
+        <!-- BSI -->
+        <button
+          class="card group will-animate rounded-2xl border bg-white dark:bg-white text-gray-900 dark:text-black backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 dark:focus-visible:ring-cyan-700 opacity-0 translate-y-6"
+          data-reveal
+          aria-haspopup="dialog"
+          data-modal-target="modal-bsi"
+        >
+          <img
+            src="/img/bgThings/bsi.png"
+            alt="BSI"
+            class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105"
+          />
+          <h2 class="mt-4 text-center text-base md:text-lg font-semibold">
+            Kartu BSI
+          </h2>
+        </button>
 
-<!-- KIPK -->
-<button
-  class="card group will-animate rounded-2xl border border-white/60 bg-white/70 backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 opacity-0 translate-y-6"
-  data-reveal aria-haspopup="dialog"
-  data-modal-target="modal-kipk">
-  <img src="/img/bgThings/kipk.png" alt="KIPK" class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105" />
-  <h2 class="mt-4 text-center text-base md:text-lg font-semibold">Kartu Indonesia Pintar Kuliah</h2>
-</button>
+        <!-- KIPK -->
+        <button
+          class="card group will-animate rounded-2xl border bg-white dark:bg-white text-gray-900 dark:text-black backdrop-blur p-6 md:p-8 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200 dark:focus-visible:ring-cyan-700 opacity-0 translate-y-6"
+          data-reveal
+          aria-haspopup="dialog"
+          data-modal-target="modal-kipk"
+        >
+          <img
+            src="/img/bgThings/kipk.png"
+            alt="KIPK"
+            class="h-14 md:h-16 w-auto mx-auto transition-transform duration-300 group-hover:scale-105"
+          />
+          <h2 class="mt-4 text-center text-base md:text-lg font-semibold">
+            Kartu Indonesia Pintar Kuliah
+          </h2>
+        </button>
+      </div>
+    </main>
 
-  </main>
-<!-- ======= MODAL BASE (KTP) ======= -->
-<div id="modal-ktp" class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center">
-  <div data-close class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"></div>
-  <div role="dialog" aria-modal="true" aria-labelledby="ktp-title"
-       class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4
-              bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden">
-    <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b">
-      <h3 id="ktp-title" class="text-lg sm:text-xl font-semibold">Cara Membuat KTP</h3>
-      <button type="button" data-close aria-label="Tutup" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18 18 6M6 6l12 12"/></svg>
-      </button>
+    <!-- ======= MODAL BASE (KTP) ======= -->
+    <!-- ======= MODAL BASE (KTP) ======= -->
+    <div
+      id="modal-ktp"
+      class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center"
+    >
+      <div
+        data-close
+        class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"
+      ></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="ktp-title"
+        class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4 bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between px-5 sm:px-6 py-4 border-b"
+        >
+          <h3 id="ktp-title" class="text-lg sm:text-xl font-semibold">
+            Cara Membuat KTP
+          </h3>
+          <button
+            type="button"
+            data-close
+            aria-label="Tutup"
+            class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="size-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll"
+        >
+          <!-- Body -->
+          <div class="px-5 sm:px-6 py-5 overflow-y-auto">
+
+            <div class="space-y-5">
+              <div class="rounded-2xl bg-gray-500/70 p-4 sm:p-6">
+                <ol class="space-y-4">
+                  <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+                    <p class="font-semibold">1. Persiapan Dokumen</p>
+                    <p class="mt-2 text-sm sm:text-base">
+                      Sebelum datang ke kantor Dukcapil, siapkan:
+                    </p>
+                    <ul
+                      class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1"
+                    >
+                      <li>Fotokopi Kartu Keluarga (KK).</li>
+                      <li>Akta kelahiran (jika diminta untuk pemula).</li>
+                      <li>Surat pindah (jika berasal dari daerah lain).</li>
+                      <li>
+                        Dokumen tambahan (surat nikah/ijazah) bila perlu
+                        sinkronisasi.
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+                    <p class="font-semibold">
+                      2. Datang ke Kantor Disdukcapil / Kecamatan
+                    </p>
+                    <ul
+                      class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1"
+                    >
+                      <li>
+                        Datangi Disdukcapil atau kecamatan sesuai domisili.
+                      </li>
+                      <li>
+                        Rekaman e-KTP pertama umumnya di kecamatan; pencetakan
+                        bisa di kecamatan atau Disdukcapil.
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+                    <p class="font-semibold">3. Proses Pendaftaran</p>
+                    <ul
+                      class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1"
+                    >
+                      <li>Serahkan dokumen persyaratan.</li>
+                      <li>
+                        Petugas memeriksa data dan mencocokkan dengan SIAK.
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+                    <p class="font-semibold">4. Perekaman Data</p>
+                    <p class="mt-2 text-sm sm:text-base">Rekaman biometrik:</p>
+                    <ul
+                      class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1"
+                    >
+                      <li>Foto wajah.</li>
+                      <li>Sidik jari semua jari.</li>
+                      <li>Pemindaian retina/iris.</li>
+                      <li>Tanda tangan digital.</li>
+                    </ul>
+                  </li>
+                  <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+                    <p class="font-semibold">5. Verifikasi & Validasi Data</p>
+                    <ul
+                      class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1"
+                    >
+                      <li>Petugas memverifikasi data sesuai dokumen.</li>
+                      <li>
+                        Koreksi bisa dilakukan saat itu juga bila ada kesalahan.
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+                    <p class="font-semibold">6. Pencetakan e-KTP</p>
+                    <ul
+                      class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1"
+                    >
+                      <li>Jika blanko tersedia, e-KTP langsung dicetak.</li>
+                      <li>
+                        Jika blanko kosong, akan diberikan Surat Keterangan
+                        (Suket) sementara.
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+                    <p class="font-semibold">7. Pengambilan KTP</p>
+                    <ul
+                      class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1"
+                    >
+                      <li>
+                        Ambil di tempat pembuatan atau tunggu dihubungi petugas.
+                      </li>
+                      <li>Tandatangani bukti penerimaan KTP.</li>
+                    </ul>
+                  </li>
+                </ol>
+                <div class="mt-5 bg-white rounded-2xl p-4 sm:p-5 shadow">
+                  <p class="font-semibold">Catatan</p>
+                  <ul
+                    class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1"
+                  >
+                    <li>
+                      Gratis / tidak dipungut biaya (sesuai aturan pemerintah).
+                    </li>
+                    <li>
+                      Wajib dimiliki WNI usia ≥17 tahun atau sudah menikah.
+                    </li>
+                    <li>Masa berlaku e-KTP seumur hidup.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="px-5 sm:px-6 py-4 border-t flex justify-end gap-2">
+          <button
+            type="button"
+            data-close
+            class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700"
+          >
+            Tutup
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll">
-        <!-- Body -->
-      <div class="px-5 sm:px-6 py-5 overflow-y-auto">
-        <!-- Versi gambar (kalau kamu punya aset gambar panduan siap pakai) -->
-        <!-- Ganti src di bawah ini ke asetmu sendiri jika mau pakai gambar: -->
-        <!-- <img src="/img/panduan/ktp-guide.png" alt="Infografik Cara Membuat KTP" class="w-full rounded-xl"> -->
-
-        <!-- Versi teks yang responsif & aksesibel -->
-        <div class="space-y-5">
-          <div class="rounded-2xl bg-[#D7EFF5] p-4 sm:p-6">
-            <ol class="space-y-4">
-              <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-                <p class="font-semibold">1. Persiapan Dokumen</p>
-                <p class="mt-2 text-sm sm:text-base">Sebelum datang ke kantor Dukcapil, siapkan:</p>
-                <ul class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1">
-                  <li>Fotokopi Kartu Keluarga (KK).</li>
-                  <li>Akta kelahiran (jika diminta untuk pemula).</li>
-                  <li>Surat pindah (jika berasal dari daerah lain).</li>
-                  <li>Dokumen tambahan (surat nikah/ijazah) bila perlu sinkronisasi.</li>
-                </ul>
-              </li>
-
-              <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-                <p class="font-semibold">2. Datang ke Kantor Disdukcapil / Kecamatan</p>
-                <ul class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1">
-                  <li>Datangi Disdukcapil atau kecamatan sesuai domisili.</li>
-                  <li>Rekaman e-KTP pertama umumnya di kecamatan; pencetakan bisa di kecamatan atau Disdukcapil.</li>
-                </ul>
-              </li>
-
-              <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-                <p class="font-semibold">3. Proses Pendaftaran</p>
-                <ul class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1">
-                  <li>Serahkan dokumen persyaratan.</li>
-                  <li>Petugas memeriksa data dan mencocokkan dengan SIAK.</li>
-                </ul>
-              </li>
-
-              <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-                <p class="font-semibold">4. Perekaman Data</p>
-                <p class="mt-2 text-sm sm:text-base">Rekaman biometrik:</p>
-                <ul class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1">
-                  <li>Foto wajah.</li>
-                  <li>Sidik jari semua jari.</li>
-                  <li>Pemindaian retina/iris.</li>
-                  <li>Tanda tangan digital.</li>
-                </ul>
-              </li>
-
-              <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-                <p class="font-semibold">5. Verifikasi & Validasi Data</p>
-                <ul class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1">
-                  <li>Petugas memverifikasi data sesuai dokumen.</li>
-                  <li>Koreksi bisa dilakukan saat itu juga bila ada kesalahan.</li>
-                </ul>
-              </li>
-
-              <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-                <p class="font-semibold">6. Pencetakan e-KTP</p>
-                <ul class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1">
-                  <li>Jika blanko tersedia, e-KTP langsung dicetak.</li>
-                  <li>Jika blanko kosong, akan diberikan Surat Keterangan (Suket) sementara.</li>
-                </ul>
-              </li>
-
-              <li class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-                <p class="font-semibold">7. Pengambilan KTP</p>
-                <ul class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1">
-                  <li>Ambil di tempat pembuatan atau tunggu dihubungi petugas.</li>
-                  <li>Tandatangani bukti penerimaan KTP.</li>
-                </ul>
-              </li>
-            </ol>
-
-            <div class="mt-5 bg-white rounded-2xl p-4 sm:p-5 shadow">
-              <p class="font-semibold">Catatan</p>
-              <ul class="list-disc pl-5 mt-2 text-sm sm:text-base space-y-1">
-                <li>Gratis / tidak dipungut biaya (sesuai aturan pemerintah).</li>
-                <li>Wajib dimiliki WNI usia ≥17 tahun atau sudah menikah.</li>
-                <li>Masa berlaku e-KTP seumur hidup.</li>
+    <!-- ======= MODAL KIA ======= -->
+    <div
+      id="modal-kia"
+      class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center"
+    >
+      <div
+        data-close
+        class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"
+      ></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="kia-title"
+        class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4 bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between px-5 sm:px-6 py-4 border-b"
+        >
+          <h3 id="kia-title" class="text-lg sm:text-xl font-semibold">
+            Cara Membuat KIA
+          </h3>
+          <button
+            type="button"
+            data-close
+            aria-label="Tutup"
+            class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="size-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll"
+        >
+          <div class="rounded-2xl bg-gray-500/70 p-4 sm:p-6 space-y-4">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+              <p class="font-semibold">Syarat Umum</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
+                <li>Fotokopi KK & KTP orang tua.</li>
+                <li>Akta kelahiran anak.</li>
+                <li>Pas foto anak (jika diminta).</li>
+              </ul>
+            </div>
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+              <p class="font-semibold">Proses</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
+                <li>Ajukan di Disdukcapil/kecamatan sesuai domisili.</li>
+                <li>Verifikasi berkas oleh petugas.</li>
+                <li>Cetak & pengambilan KIA.</li>
               </ul>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="px-5 sm:px-6 py-4 border-t flex justify-end gap-2">
-      <button type="button" data-close class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700">Tutup</button>
-    </div>
-  </div>
-</div>
-
-<!-- ======= MODAL KIA ======= -->
-<div id="modal-kia" class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center">
-  <div data-close class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"></div>
-  <div role="dialog" aria-modal="true" aria-labelledby="kia-title"
-       class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4
-              bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden">
-    <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b">
-      <h3 id="kia-title" class="text-lg sm:text-xl font-semibold">Cara Membuat KIA</h3>
-      <button type="button" data-close aria-label="Tutup" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18 18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll">
-      <div class="rounded-2xl bg-[#D7EFF5] p-4 sm:p-6 space-y-4">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-          <p class="font-semibold">Syarat Umum</p>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
-            <li>Fotokopi KK & KTP orang tua.</li>
-            <li>Akta kelahiran anak.</li>
-            <li>Pas foto anak (jika diminta).</li>
-          </ul>
-        </div>
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-          <p class="font-semibold">Proses</p>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
-            <li>Ajukan di Disdukcapil/kecamatan sesuai domisili.</li>
-            <li>Verifikasi berkas oleh petugas.</li>
-            <li>Cetak & pengambilan KIA.</li>
-          </ul>
+        <div class="px-5 sm:px-6 py-4 border-t flex justify-end">
+          <button
+            data-close
+            class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700"
+          >
+            Tutup
+          </button>
         </div>
       </div>
     </div>
-    <div class="px-5 sm:px-6 py-4 border-t flex justify-end"><button data-close class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200">Tutup</button></div>
-  </div>
-</div>
 
-<!-- ======= MODAL KIS ======= -->
-<div id="modal-kis" class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center">
-  <div data-close class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"></div>
-  <div role="dialog" aria-modal="true" aria-labelledby="kis-title"
-       class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4
-              bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden">
-    <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b">
-      <h3 id="kis-title" class="text-lg sm:text-xl font-semibold">Cara Mengurus KIS (JKN)</h3>
-      <button type="button" data-close aria-label="Tutup" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18 18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll">
-      <div class="rounded-2xl bg-[#D7EFF5] p-4 sm:p-6 space-y-4">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-          <p class="font-semibold">Syarat</p>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
-            <li>KK, KTP, dan NIK aktif.</li>
-            <li>Surat keterangan domisili (bila perlu).</li>
-          </ul>
+    <!-- ======= MODAL KIS ======= -->
+    <div
+      id="modal-kis"
+      class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center"
+    >
+      <div
+        data-close
+        class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"
+      ></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="kis-title"
+        class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4 bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between px-5 sm:px-6 py-4 border-b"
+        >
+          <h3 id="kis-title" class="text-lg sm:text-xl font-semibold">
+            Cara Mengurus KIS (JKN)
+          </h3>
+          <button
+            type="button"
+            data-close
+            aria-label="Tutup"
+            class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="size-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-          <p class="font-semibold">Alur</p>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
-            <li>Daftar melalui mobile JKN/ kantor BPJS Kesehatan.</li>
-            <li>Pilih kelas iuran & faskes tingkat pertama.</li>
-            <li>Aktivasi kepesertaan & cetak kartu digital/fisik.</li>
-          </ul>
+        <div
+          class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll"
+        >
+          <div class="rounded-2xl bg-gray-500/70 p-4 sm:p-6 space-y-4">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+              <p class="font-semibold">Syarat</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
+                <li>KK, KTP, dan NIK aktif.</li>
+                <li>Surat keterangan domisili (bila perlu).</li>
+              </ul>
+            </div>
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+              <p class="font-semibold">Alur</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
+                <li>Daftar melalui mobile JKN/ kantor BPJS Kesehatan.</li>
+                <li>Pilih kelas iuran & faskes tingkat pertama.</li>
+                <li>Aktivasi kepesertaan & cetak kartu digital/fisik.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="px-5 sm:px-6 py-4 border-t flex justify-end">
+          <button
+            data-close
+            class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700"
+          >
+            Tutup
+          </button>
         </div>
       </div>
     </div>
-    <div class="px-5 sm:px-6 py-4 border-t flex justify-end"><button data-close class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200">Tutup</button></div>
-  </div>
-</div>
 
-<!-- ======= MODAL BPJS (Ketenagakerjaan/Kesehatan – sesuaikan) ======= -->
-<div id="modal-bpjs" class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center">
-  <div data-close class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"></div>
-  <div role="dialog" aria-modal="true" aria-labelledby="bpjs-title"
-       class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4
-              bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden">
-    <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b">
-      <h3 id="bpjs-title" class="text-lg sm:text-xl font-semibold">Cara Daftar BPJS</h3>
-      <button type="button" data-close aria-label="Tutup" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18 18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll">
-      <div class="rounded-2xl bg-[#D7EFF5] p-4 sm:p-6 space-y-4">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-          <p class="font-semibold">Syarat</p>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
-            <li>KTP & KK.</li>
-            <li>NPWP (bila ada), email & nomor HP aktif.</li>
-          </ul>
+    <!-- ======= MODAL BPJS (Ketenagakerjaan/Kesehatan – sesuaikan) ======= -->
+    <div
+      id="modal-bpjs"
+      class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center"
+    >
+      <div
+        data-close
+        class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"
+      ></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="bpjs-title"
+        class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4 bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between px-5 sm:px-6 py-4 border-b"
+        >
+          <h3 id="bpjs-title" class="text-lg sm:text-xl font-semibold">
+            Cara Daftar BPJS
+          </h3>
+          <button
+            type="button"
+            data-close
+            aria-label="Tutup"
+            class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="size-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-          <p class="font-semibold">Langkah</p>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
-            <li>Registrasi online/aplikasi atau kantor cabang.</li>
-            <li>Pilih program (Kesehatan/Ketenagakerjaan).</li>
-            <li>Bayar iuran & aktivasi kartu.</li>
-          </ul>
+        <div
+          class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll"
+        >
+          <div class="rounded-2xl bg-gray-500/70 p-4 sm:p-6 space-y-4">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+              <p class="font-semibold">Syarat</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
+                <li>KTP & KK.</li>
+                <li>NPWP (bila ada), email & nomor HP aktif.</li>
+              </ul>
+            </div>
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+              <p class="font-semibold">Langkah</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
+                <li>Registrasi online/aplikasi atau kantor cabang.</li>
+                <li>Pilih program (Kesehatan/Ketenagakerjaan).</li>
+                <li>Bayar iuran & aktivasi kartu.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="px-5 sm:px-6 py-4 border-t flex justify-end">
+          <button
+            data-close
+            class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700"
+          >
+            Tutup
+          </button>
         </div>
       </div>
     </div>
-    <div class="px-5 sm:px-6 py-4 border-t flex justify-end"><button data-close class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200">Tutup</button></div>
-  </div>
-</div>
 
-<!-- ======= MODAL BSI (Kartu Bank) ======= -->
-<div id="modal-bsi" class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center">
-  <div data-close class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"></div>
-  <div role="dialog" aria-modal="true" aria-labelledby="bsi-title"
-       class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4
-              bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden">
-    <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b">
-      <h3 id="bsi-title" class="text-lg sm:text-xl font-semibold">Cara Membuat Kartu BSI</h3>
-      <button type="button" data-close aria-label="Tutup" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18 18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll">
-      <div class="rounded-2xl bg-[#D7EFF5] p-4 sm:p-6 space-y-4">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-          <p class="font-semibold">Syarat</p>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
-            <li>KTP/KK, NPWP (opsional), setoran awal.</li>
-            <li>Nomor HP & email aktif.</li>
-          </ul>
+    <!-- ======= MODAL BSI (Kartu Bank) ======= -->
+    <div
+      id="modal-bsi"
+      class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center"
+    >
+      <div
+        data-close
+        class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"
+      ></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="bsi-title"
+        class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4 bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between px-5 sm:px-6 py-4 border-b"
+        >
+          <h3 id="bsi-title" class="text-lg sm:text-xl font-semibold">
+            Cara Membuat Kartu BSI
+          </h3>
+          <button
+            type="button"
+            data-close
+            aria-label="Tutup"
+            class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="size-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-          <p class="font-semibold">Proses</p>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
-            <li>Buka rekening via cabang/online.</li>
-            <li>Verifikasi data & tanda tangan.</li>
-            <li>Aktivasi kartu & mobile banking.</li>
-          </ul>
+        <div
+          class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll"
+        >
+          <div class="rounded-2xl bg-gray-500/70 p-4 sm:p-6 space-y-4">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+              <p class="font-semibold">Syarat</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
+                <li>KTP/KK, NPWP (opsional), setoran awal.</li>
+                <li>Nomor HP & email aktif.</li>
+              </ul>
+            </div>
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+              <p class="font-semibold">Proses</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
+                <li>Buka rekening via cabang/online.</li>
+                <li>Verifikasi data & tanda tangan.</li>
+                <li>Aktivasi kartu & mobile banking.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="px-5 sm:px-6 py-4 border-t flex justify-end">
+          <button
+            data-close
+            class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700"
+          >
+            Tutup
+          </button>
         </div>
       </div>
     </div>
-    <div class="px-5 sm:px-6 py-4 border-t flex justify-end"><button data-close class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200">Tutup</button></div>
-  </div>
-</div>
 
-<!-- ======= MODAL KIPK ======= -->
-<div id="modal-kipk" class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center">
-  <div data-close class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"></div>
-  <div role="dialog" aria-modal="true" aria-labelledby="kipk-title"
-       class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4
-              bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden">
-    <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b">
-      <h3 id="kipk-title" class="text-lg sm:text-xl font-semibold">Cara Mengurus KIP Kuliah</h3>
-      <button type="button" data-close aria-label="Tutup" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18 18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll">
-      <div class="rounded-2xl bg-[#D7EFF5] p-4 sm:p-6 space-y-4">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-          <p class="font-semibold">Syarat Dasar</p>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
-            <li>Data DTKS/terkait bantuan (jika relevan).</li>
-            <li>KTP/KK, ijazah/transkrip, bukti penerimaan PT.</li>
-          </ul>
+    <!-- ======= MODAL KIPK ======= -->
+    <div
+      id="modal-kipk"
+      class="fixed inset-0 z-[60] hidden items-end sm:items-center justify-center"
+    >
+      <div
+        data-close
+        class="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-200"
+      ></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="kipk-title"
+        class="relative w-full sm:max-w-3xl flex flex-col max-h-[85dvh] sm:max-h-[90vh] sm:rounded-2xl sm:mx-4 bg-white shadow-2xl translate-y-6 sm:scale-95 opacity-0 transition-all duration-200 overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between px-5 sm:px-6 py-4 border-b"
+        >
+          <h3 id="kipk-title" class="text-lg sm:text-xl font-semibold">
+            Cara Mengurus KIP Kuliah
+          </h3>
+          <button
+            type="button"
+            data-close
+            aria-label="Tutup"
+            class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="size-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
-          <p class="font-semibold">Alur Singkat</p>
-          <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
-            <li>Registrasi akun KIPK daring.</li>
-            <li>Lengkapi berkas & verifikasi perguruan tinggi.</li>
-            <li>Penetapan penerima & aktivasi bantuan.</li>
-          </ul>
+        <div
+          class="px-5 sm:px-6 py-5 flex-1 overflow-y-auto overscroll-contain ios-scroll"
+        >
+          <div class="rounded-2xl bg-gray-500/70 p-4 sm:p-6 space-y-4">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+              <p class="font-semibold">Syarat Dasar</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
+                <li>Data DTKS/terkait bantuan (jika relevan).</li>
+                <li>KTP/KK, ijazah/transkrip, bukti penerimaan PT.</li>
+              </ul>
+            </div>
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow">
+              <p class="font-semibold">Alur Singkat</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm sm:text-base">
+                <li>Registrasi akun KIPK daring.</li>
+                <li>Lengkapi berkas & verifikasi perguruan tinggi.</li>
+                <li>Penetapan penerima & aktivasi bantuan.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="px-5 sm:px-6 py-4 border-t flex justify-end">
+          <button
+            data-close
+            class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700"
+          >
+            Tutup
+          </button>
         </div>
       </div>
     </div>
-    <div class="px-5 sm:px-6 py-4 border-t flex justify-end"><button data-close class="rounded-xl px-4 py-2 bg-gray-100 hover:bg-gray-200">Tutup</button></div>
-  </div>
-</div>
 
-  <!-- Scripts -->
-  <script>
-  // Reveal animation (tetap)
-  const items = document.querySelectorAll('[data-reveal]');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.remove('opacity-0', 'translate-y-6');
-        entry.target.classList.add('opacity-100', 'translate-y-0');
-        io.unobserve(entry.target);
+    <!-- Scripts -->
+    <script>
+      // Reveal animation
+      const items = document.querySelectorAll("[data-reveal]");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.remove("opacity-0", "translate-y-6");
+              entry.target.classList.add("opacity-100", "translate-y-0");
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+      items.forEach((el) => io.observe(el));
+
+      // ===== Theme toggle =====
+      const themeToggle = document.getElementById("themeToggle");
+      const mql = window.matchMedia("(prefers-color-scheme: dark)");
+      function setTheme(mode) {
+        document.documentElement.classList.toggle("dark", mode === "dark");
+        localStorage.setItem("theme", mode);
       }
-    });
-  }, { threshold: 0.15 });
-  items.forEach((el) => io.observe(el));
+      // click toggle
+      themeToggle.addEventListener("click", () => {
+        const isDark = document.documentElement.classList.contains("dark");
+        setTheme(isDark ? "light" : "dark");
+      });
+      // sync jika user ubah preferensi sistem (hanya kalau user belum pilih manual)
+      mql.addEventListener?.("change", (e) => {
+        if (!localStorage.getItem("theme")) {
+          setTheme(e.matches ? "dark" : "light");
+        }
+      });
 
-  // ===== Modal Manager (universal) =====
-  const focusableSelectors = 'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
-  let lastFocus = null;
+      // ===== Modal Manager (universal) =====
+      const focusableSelectors =
+        'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
+      let lastFocus = null;
 
-  function openModalById(id) {
-    const modal = document.getElementById(id);
-    if (!modal) return;
+      function openModalById(id) {
+        const modal = document.getElementById(id);
+        if (!modal) return;
 
-    lastFocus = document.activeElement;
-    document.documentElement.classList.add('overflow-hidden'); // lock page
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
+        lastFocus = document.activeElement;
+        document.documentElement.classList.add("overflow-hidden"); // lock page
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
 
-    const dlg = modal.querySelector('[role="dialog"]');
-    const overlay = modal.querySelector('[data-close]');
-    requestAnimationFrame(() => {
-      overlay.classList.remove('opacity-0');
-      dlg.classList.remove('opacity-0','translate-y-6','sm:scale-95');
-    });
+        const dlg = modal.querySelector('[role="dialog"]');
+        const overlay = modal.querySelector("[data-close]");
+        requestAnimationFrame(() => {
+          overlay.classList.remove("opacity-0");
+          dlg.classList.remove("opacity-0", "translate-y-6", "sm:scale-95");
+        });
 
-    const first = dlg.querySelector(focusableSelectors);
-    (first || dlg).focus();
+        const first = dlg.querySelector(focusableSelectors);
+        (first || dlg).focus();
 
-    // focus trap
-    function trap(e) {
-      if (e.key !== 'Tab') return;
-      const focusables = dlg.querySelectorAll(focusableSelectors);
-      if (!focusables.length) return;
-      const firstEl = focusables[0];
-      const lastEl  = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === firstEl) {
-        e.preventDefault(); lastEl.focus();
-      } else if (!e.shiftKey && document.activeElement === lastEl) {
-        e.preventDefault(); firstEl.focus();
+        function trap(e) {
+          if (e.key !== "Tab") return;
+          const focusables = dlg.querySelectorAll(focusableSelectors);
+          if (!focusables.length) return;
+          const firstEl = focusables[0];
+          const lastEl = focusables[focusables.length - 1];
+          if (e.shiftKey && document.activeElement === firstEl) {
+            e.preventDefault();
+            lastEl.focus();
+          } else if (!e.shiftKey && document.activeElement === lastEl) {
+            e.preventDefault();
+            firstEl.focus();
+          }
+        }
+        modal._trap = trap;
+        modal._esc = (e) => {
+          if (e.key === "Escape") closeModal(modal);
+        };
+        document.addEventListener("keydown", trap);
+        document.addEventListener("keydown", modal._esc);
+
+        modal.querySelectorAll("[data-close]").forEach((el) => {
+          el.addEventListener("click", () => closeModal(modal), { once: true });
+        });
       }
-    }
-    modal._trap = trap;
-    modal._esc  = (e) => { if (e.key === 'Escape') closeModal(modal); };
-    document.addEventListener('keydown', trap);
-    document.addEventListener('keydown', modal._esc);
 
-    // close handlers
-    modal.querySelectorAll('[data-close]').forEach(el => {
-      el.addEventListener('click', () => closeModal(modal), { once: true });
-    });
-  }
+      function closeModal(modal) {
+        const dlg = modal.querySelector('[role="dialog"]');
+        const overlay = modal.querySelector("[data-close]");
+        overlay.classList.add("opacity-0");
+        dlg.classList.add("opacity-0", "translate-y-6", "sm:scale-95");
+        setTimeout(() => {
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+          document.documentElement.classList.remove("overflow-hidden");
+        }, 200);
+        document.removeEventListener("keydown", modal._trap);
+        document.removeEventListener("keydown", modal._esc);
+        if (lastFocus) lastFocus.focus();
+      }
 
-  function closeModal(modal) {
-    const dlg = modal.querySelector('[role="dialog"]');
-    const overlay = modal.querySelector('[data-close]');
-    overlay.classList.add('opacity-0');
-    dlg.classList.add('opacity-0','translate-y-6','sm:scale-95');
-    setTimeout(() => {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      document.documentElement.classList.remove('overflow-hidden');
-    }, 200);
-    document.removeEventListener('keydown', modal._trap);
-    document.removeEventListener('keydown', modal._esc);
-    if (lastFocus) lastFocus.focus();
-  }
-
-  // delegate: klik card => buka modal sesuai target
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-modal-target]');
-    if (!btn) return;
-    const targetId = btn.getAttribute('data-modal-target');
-    if (targetId) openModalById(targetId);
-  });
-</script>
-
-</body>
+      // delegate: klik card => buka modal
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-modal-target]");
+        if (!btn) return;
+        const targetId = btn.getAttribute("data-modal-target");
+        if (targetId) openModalById(targetId);
+      });
+    </script>
+  </body>
 </html>
