@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,191 +7,262 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="css/sytle.css" />
-    
+    <script>
+      // Check for saved theme preference or use system preference
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+      }
+    </script>
   </head>
-  <body>
-    <div id="navbar"></div>
-    
+  <body class="transition-colors duration-300 bg-white dark:bg-white text-gray-900 dark:text-black">
+    <nav class="flex items-center justify-around poppins-regular h-[96px] fixed w-screen top-0 bg-white dark:bg-white  z-50 px-4 shadow-md transition-all duration-300 dark:shadow-gray-800">
+      <a href="#">
+        <img class="h-[60px] w-[60px] md:h-[80px] md:w-[80px] transition-all duration-300" src="img/logo.png" alt="LOGO">
+      </a>
+      <div class="hidden md:flex justify-center items-center gap-8">
+        <a href="#hero" class="hover:text-[#0388A7] transition-colors duration-300 text-gray-900 dark:text-black  dark:hover:text-[#10BCE0]">Home</a>
+        <a href="#layanan" class="hover:text-[#0388A7] transition-colors duration-300 text-gray-900 dark:text-black  dark:hover:text-[#10BCE0]">Layanan</a>
+        <a href="#jadwal" class="hover:text-[#0388A7] transition-colors duration-300 text-gray-900 dark:text-black  dark:hover:text-[#10BCE0]">Jadwal</a>
+        <a href="#langkah" class="hover:text-[#0388A7] transition-colors duration-300 text-gray-900 dark:text-black  dark:hover:text-[#10BCE0]">Langkah</a>
+      </div>
+      <div class="hidden md:flex items-center gap-4">
+        <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300">
+          <!-- Sun icon for dark mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden dark:block text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon icon for light mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 block dark:hidden text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+        <a href="#jadwal" class="text-xl bg-blue-800 p-3 rounded-3xl drop-shadow-2xl text-white hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 dark:bg-blue-600 dark:hover:bg-blue-500">
+          Jadwal Keliling
+        </a>
+      </div>
+      <div class="md:hidden flex items-center gap-3">
+        <button id="themeToggleMobile" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300">
+          <!-- Sun icon for dark mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden dark:block text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon icon for light mode -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 block dark:hidden text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+        <button id="mobileMenuBtn" class="text-gray-700 dark:text-gray-200 z-50 relative">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Mobile Menu -->
+      <div id="mobileMenu" class="fixed inset-0 bg-white dark:bg-gray-900 z-50 flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <button id="closeMenuBtn" class="absolute top-6 right-6 text-gray-700 dark:text-gray-200">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div class="flex flex-col items-center gap-8 text-xl">
+          <a href="#" class="hover:text-[#0388A7] transition-colors duration-300 dark:text-gray-200 dark:hover:text-[#10BCE0]">Home</a>
+          <a href="#" class="hover:text-[#0388A7] transition-colors duration-300 dark:text-gray-200 dark:hover:text-[#10BCE0]">Tentang Kami</a>
+          <a href="#" class="hover:text-[#0388A7] transition-colors duration-300 dark:text-gray-200 dark:hover:text-[#10BCE0]">Cerita</a>
+          <a href="#" class="hover:text-[#0388A7] transition-colors duration-300 dark:text-gray-200 dark:hover:text-[#10BCE0]">Lokasi</a>
+          <a href="#jadwal" class="text-xl bg-blue-800 p-3 rounded-3xl drop-shadow-2xl text-white hover:bg-blue-700 transition-all duration-300 mt-4 dark:bg-blue-600 dark:hover:bg-blue-500">
+            Jadwal Keliling
+          </a>
+        </div>
+      </div>
+    </nav>
+<img src="img/bgThings/bg-1.png" alt="" class="absolute -z-30 -top-150 -left-120">    
     <!-- content -->
     <div id="hero"></div>
     <div id="tentangKami"></div>
-    <section class="flex flex-col items-center justify-center mt-24 px-4">
-    <div class="flex flex-col items-center justify-center text-center max-w-2xl">
-      <h1 class="bg-gradient-to-r from-[#10BCE0] to-[#4AFF09] bg-clip-text text-transparent font-extrabold text-4xl mb-4">
-        Layanan Publik Tersedia
-      </h1>
-      <p class="text-lg md:text-xl">
-        Temukan berbagai layanan publik yang dilengkapi dengan fasilitas aksesibel dan ramah<br class="hidden md:block" /> untuk penyandang disabilitas.
-      </p>
-    </div>
+    <section id="layanan" class="flex flex-col items-center justify-center mt-16 md:mt-24 px-4 relative">
+      <img src="img/bgThings/bg-4.png" alt="" class="absolute -z-30 top-0 right-0">
+      <img src="img/bgThings/bg-5.png" alt="" class="absolute -z-30 top-[50%%] left-0">
+      <img src="img/bgThings/bg-6.png" alt="" class="absolute -z-30 top-[70%] right-0">
 
-    <!-- Controls -->
-    <div class="flex flex-col gap-4 w-full max-w-7xl border rounded-2xl border-gray-200 bg-white/70 shadow-sm mt-10 p-5">
-      <label class="sr-only" for="search">Cari Layanan Publik</label>
-      <input id="search" type="text" class="bg-[#EAE9E9]/50 h-12 px-4 rounded-lg placeholder:text-gray-500"
-             placeholder="Cari Layanan Publik (nama, alamat, lokasi, deskripsi)" />
+  <div class="flex flex-col items-center justify-center text-center max-w-2xl">
 
-      <div class="flex flex-wrap items-center gap-3 md:gap-4">
-        <span class="text-base font-medium">Kategori:</span>
-        <div id="categoryBar" class="flex flex-wrap gap-3">
-          <!-- Buttons injected by JS to manage active state cleanly -->
-        </div>
+    <h1 class="bg-gradient-to-r from-[#10BCE0] to-[#4AFF09] bg-clip-text text-transparent font-extrabold text-3xl md:text-4xl mb-4">
+      Layanan Publik Tersedia
+    </h1>
+    <p class="text-lg md:text-xl">
+      Temukan berbagai layanan publik yang dilengkapi dengan fasilitas aksesibel dan ramah untuk penyandang disabilitas.
+    </p>
+  </div>
+
+  <!-- Controls -->
+  <div class="flex flex-col gap-4 w-full max-w-7xl border rounded-2xl border-gray-200 bg-white dark:bg-white text-gray-900 dark:text-black shadow-sm mt-6 md:mt-10 p-4 md:p-5" data-aos="fade-up" data-aos-delay="200">
+    <label class="sr-only" for="search">Cari Layanan Publik</label>
+    <input id="search" type="text" class="h-12 px-4 rounded-lg placeholder:text-gray-500"
+           placeholder="Cari Layanan Publik" />
+
+    <div class="flex flex-wrap items-center gap-2 md:gap-4">
+      <span class="text-base font-medium">Kategori:</span>
+      <div id="categoryBar" class="flex flex-wrap gap-2 md:gap-3">
+        <!-- Buttons injected by JS to manage active state cleanly -->
       </div>
     </div>
+  </div>
 
-    <!-- Cards grid -->
-    <div class="w-full max-w-7xl mt-10">
-      <div id="cards" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+  <!-- Cards grid -->
+  <div class="w-full max-w-7xl mt-6 md:mt-10 ">
+    <div id="cards" class="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"></div>
 
-      <!-- See more -->
-      <div class="flex justify-center mt-8">
-        <button id="seeMoreBtn" class="hidden rounded-xl bg-sky-500 px-5 py-3 font-semibold text-white hover:bg-sky-600 active:scale-[.99]">
-          Lihat Lebih Banyak
-        </button>
-      </div>
+    <!-- See more -->
+    <div class="flex justify-center mt-6 md:mt-8">
+      <button id="seeMoreBtn" class="hidden rounded-xl bg-sky-500 px-5 py-3 font-semibold text-white hover:bg-sky-600 active:scale-[.99] transition-all duration-300 transform hover:scale-105">
+        Lihat Lebih Banyak
+      </button>
     </div>
+  </div>
+</section>
   </section>
 
-  <div id="detailModal" class="fixed inset-0 z-50 hidden items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+  <div id="detailModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-white dark:bg-white text-gray-900 dark:text-black" role="dialog" aria-modal="true" aria-labelledby="detailTitle" >
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" data-dismiss="modal"></div>
     <div class="relative mx-4 w-full max-w-2xl rounded-2xl bg-white shadow-2xl">
       <div id="modalContent"></div>
     </div>
   </div>
 
-  <section class="flex flex-col items-center justify-center mt-24  relative">
-    <div class="w-[900px] h-[56px] flex items-center p-3 rounded-xl bg-[#C1E8EF]/40 ">
-    <button id="jwl" class="w-[419px] h-[37px] cursor-pointer pointer-events-none poppins-medium bg-white rounded-xl">
-      Jadwal Keliling
-    </button>
+  <section class="flex flex-col items-center justify-center mt-24 relative">
+      <img src="img/bgThings/bg-7.png" alt="" class="absolute -z-30 -top-[40%] left-0">
 
-    <button id="faq" class="w-[419px] h-[37px]  poppins-medium cursor-pointer">
-      FAQ
-    </button>
-  </div>
-      <div id="jwlItem" class="translate-y-0 opacity-100 transition-all duration-500">
+    <div class="w-full max-w-[900px] h-[56px] flex items-center p-3 rounded-xl bg-[#C1E8EF]/40">
+      <button id="jwl" class="w-1/2 h-[37px] cursor-pointer pointer-events-none poppins-medium bg-white rounded-xl transition-all duration-300">
+        Jadwal Keliling
+      </button>
+
+      <button id="faq" class="w-1/2 h-[37px] poppins-medium cursor-pointer transition-all duration-300">
+        FAQ
+      </button>
+    </div>
+    <div id="jwlItem" class="translate-y-0 opacity-100 transition-all duration-500 w-full max-w-[900px]">
 
       <div class="text-center">
-        <h1 class="poppins-semibold text-4xl mt-10 mb-4">Jadwal Layanan Keliling</h1>
-        <h2 class="poppins-light text-lg">Layanan publik yang datang langsung ke lingkungan Anda</h2>
+        <h1 class="poppins-semibold text-2xl md:text-4xl mt-10 mb-4">Jadwal Layanan Keliling</h1>
+        <h2 class="poppins-light text-base md:text-lg">Layanan publik yang datang langsung ke lingkungan Anda</h2>
       </div>
 
-      <div class="flex flex-col gap-10 mt-10">
-        <div class="flex items-center justify-between w-[849px] border-2 p-3 rounded-xl border-[#0388A7] shadow-xl">
-        <div class="flex flex-col">
-          <h1 class="text-lg poppins-semibold">
-            Puskesmas Arcamanik
-          </h1>
-          <p class="text-nowrap flex gap-2 poppins-light">
-            <span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-</svg>
-
-            </span>
-            Kelurahan 
-            <span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-</svg>
-
-            </span>
-            09:00 - 12:00
-          </p>
-        </div>
-        <div class="flex gap-3">
-            <button class="border-2 border-slate-200/50 rounded-full px-5">
+      <div class="flex flex-col gap-6 md:gap-10 mt-6 md:mt-10" id="jadwal">
+        <div class="flex flex-col md:flex-row md:items-center justify-between w-full border-2 p-3 rounded-xl border-[#0388A7] shadow-xl" data-aos="fade-right">
+          <div class="flex flex-col mb-4 md:mb-0">
+            <h1 class="text-lg poppins-semibold">
+              Puskesmas Arcamanik
+            </h1>
+            <p class="flex flex-wrap gap-2 poppins-light items-center">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                </svg>
+              </span>
+              Kelurahan 
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+              </span>
+              09:00 - 12:00
+            </p>
+          </div>
+          <div class="flex gap-3 ">
+            <button class="border-2 border-slate-200/50 rounded-full px-3 md:px-5 text-sm md:text-base">
               24/1/2024
             </button>
-            <a href="tel:0182821" class="text-nowrap flex flex-nowrap gap-4">
-               <button class="bg-[#F5F4F4] flex justify-center items-center py-2 w-[165px] rounded-md">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-</svg>
-<span>Hubungi</span>
+            <a href="tel:0182821" class="text-nowrap flex flex-nowrap gap-2 md:gap-4">
+              <button class="bg-white dark:bg-white text-gray-900 dark:text-black flex justify-center items-center py-2 px-3 md:w-[165px] rounded-md hover:bg-[#e0e0e0] transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                </svg>
+                <span>Hubungi</span>
+              </button>
             </a>
-               </button>
+          </div>
         </div>
-      </div>
 
-      <div class="flex items-center justify-between w-[849px] border-2 p-3 rounded-xl border-[#0388A7] shadow-xl">
-        <div class="flex flex-col">
-          <h1 class="text-lg poppins-semibold">
-            Puskesmas Arcamanik
-          </h1>
-          <p class="text-nowrap flex gap-2 poppins-light">
-            <span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-</svg>
-
-            </span>
-            Kelurahan 
-            <span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-</svg>
-
-            </span>
-            09:00 - 12:00
-          </p>
-        </div>
-        <div class="flex gap-3">
-            <button class="border-2 border-slate-200/50 rounded-full px-5">
+        <div class="flex flex-col md:flex-row md:items-center justify-between w-full border-2 p-3 rounded-xl border-[#0388A7] shadow-xl" data-aos="fade-right" data-aos-delay="100">
+          <div class="flex flex-col mb-4 md:mb-0">
+            <h1 class="text-lg poppins-semibold">
+              Puskesmas Arcamanik
+            </h1>
+            <p class="flex flex-wrap gap-2 poppins-light items-center">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                </svg>
+              </span>
+              Kelurahan 
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+              </span>
+              09:00 - 12:00
+            </p>
+          </div>
+          <div class="flex gap-3">
+            <button class="border-2 border-slate-200/50 rounded-full px-3 md:px-5 text-sm md:text-base">
               24/1/2024
             </button>
-            <a href="tel:0182821" class="text-nowrap flex flex-nowrap gap-4">
-               <button class="bg-[#F5F4F4] flex justify-center items-center py-2 w-[165px] rounded-md">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-</svg>
-<span>Hubungi</span>
+            <a href="tel:0182821" class="text-nowrap flex flex-nowrap gap-2 md:gap-4">
+              <button class="bg-white dark:bg-white text-gray-900 dark:text-black flex justify-center items-center py-2 px-3 md:w-[165px] rounded-md hover:bg-[#e0e0e0] transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                </svg>
+                <span>Hubungi</span>
+              </button>
             </a>
-               </button>
+          </div>
         </div>
-      </div>
 
-      <div class="flex items-center justify-between w-[849px] border-2 p-3 rounded-xl border-[#0388A7] shadow-xl">
-        <div class="flex flex-col">
-          <h1 class="text-lg poppins-semibold">
-            Puskesmas Arcamanik
-          </h1>
-          <p class="text-nowrap flex gap-2 poppins-light">
-            <span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-</svg>
-
-            </span>
-            Kelurahan 
-            <span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-</svg>
-
-            </span>
-            09:00 - 12:00
-          </p>
-        </div>
-        <div class="flex gap-3">
-            <button class="border-2 border-slate-200/50 rounded-full px-5">
+        <div class="flex flex-col md:flex-row md:items-center justify-between w-full border-2 p-3 rounded-xl border-[#0388A7] shadow-xl" data-aos="fade-right" data-aos-delay="200">
+          <div class="flex flex-col mb-4 md:mb-0">
+            <h1 class="text-lg poppins-semibold">
+              Puskesmas Arcamanik
+            </h1>
+            <p class="flex flex-wrap gap-2 poppins-light items-center">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                </svg>
+              </span>
+              Kelurahan 
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+              </span>
+              09:00 - 12:00
+            </p>
+          </div>
+          <div class="flex gap-3">
+            <button class="border-2 border-slate-200/50 rounded-full px-3 md:px-5 text-sm md:text-base">
               24/1/2024
             </button>
-            <a href="tel:0182821" class="text-nowrap flex flex-nowrap gap-4">
-               <button class="bg-[#F5F4F4] flex justify-center items-center py-2 w-[165px] rounded-md">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-</svg>
-<span>Hubungi</span>
+            <a href="tel:0182821" class="text-nowrap flex flex-nowrap gap-2 md:gap-4">
+              <button class="bg-white dark:bg-white text-gray-900 dark:text-black flex justify-center items-center py-2 px-3 md:w-[165px] rounded-md hover:bg-[#e0e0e0] transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                </svg>
+                <span>Hubungi</span>
+              </button>
             </a>
-               </button>
+          </div>
         </div>
       </div>
-      </div>
-      </div>
+    </div>
       
       <div id="faqItem" class="absolute translate-y-10 opacity-0 transition-all duration-500">
         <div class="text-center">
@@ -201,15 +272,15 @@
          <div id="accordion" class="space-y-3 mt-10">
 
       <!-- Item 1 -->
-      <div class="border bg-white rounded-xl shadow-sm">
+      <div class="border bg-white rounded-xl shadow-sm ">
         <button
           type="button"
-          class="accordion-trigger w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-zinc-50 focus:outline-none focus-visible:ring rounded-xl"
+          class="accordion-trigger w-full flex items-center justify-between gap-3 p-4 text-left  focus:outline-none focus-visible:ring rounded-xl"
           id="acc-btn-1"
           aria-expanded="false"
           aria-controls="acc-panel-1"
         >
-          <span class="font-medium text-zinc-900">Bagaimana cara mengakses layanan kesehatan dengan prioritas disabilitas?</span>
+          <span class="font-medium bg-white dark:bg-white text-gray-900 dark:text-black">Bagaimana cara mengakses layanan kesehatan dengan prioritas disabilitas?</span>
           <svg class="chev w-5 h-5 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/>
           </svg>
@@ -218,7 +289,7 @@
           id="acc-panel-1"
           role="region"
           aria-labelledby="acc-btn-1"
-          class="accordion-panel hidden px-4 pb-4 text-zinc-600 text-start"
+          class="accordion-panel hidden px-4 pb-4 bg-white dark:bg-white text-gray-900 dark:text-black text-start"
         >
           Anda dapat langsung datang ke puskesmas terdekat atau menghubungi hotline. Semua puskesmas di Bandung <br> telah dilengkapi fasilitas aksesibel.
         </div>
@@ -228,12 +299,12 @@
       <div class="border bg-white rounded-xl shadow-sm">
         <button
           type="button"
-          class="accordion-trigger w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-zinc-50 focus:outline-none focus-visible:ring rounded-xl"
+          class="accordion-trigger w-full flex items-center justify-between gap-3 p-4 text-left  focus:outline-none focus-visible:ring rounded-xl"
           id="acc-btn-2"
           aria-expanded="false"
           aria-controls="acc-panel-2"
         >
-          <span class="font-medium text-zinc-900">Apakah ada layanan administrasi keliling untuk penyandang disabilitas?</span>
+          <span class="font-medium bg-white dark:bg-white text-gray-900 dark:text-black">Apakah ada layanan administrasi keliling untuk penyandang disabilitas?</span>
           <svg class="chev w-5 h-5 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/>
           </svg>
@@ -242,7 +313,7 @@
           id="acc-panel-2"
           role="region"
           aria-labelledby="acc-btn-2"
-          class="accordion-panel hidden px-4 pb-4 text-zinc-600 text-start"
+          class="accordion-panel hidden px-4 pb-4 bg-white dark:bg-white text-gray-900 dark:text-black text-start"
         >
           Ya, kami menyediakan layanan administrasi keliling setiap hari Rabu dan Sabtu ke berbagai lokasi dengan <br> fasilitas aksesibel.
         </div>
@@ -252,12 +323,12 @@
       <div class="border bg-white rounded-xl shadow-sm">
         <button
           type="button"
-          class="accordion-trigger w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-zinc-50 focus:outline-none focus-visible:ring rounded-xl"
+          class="accordion-trigger w-full flex items-center justify-between gap-3 p-4 text-left  focus:outline-none focus-visible:ring rounded-xl"
           id="acc-btn-3"
           aria-expanded="false"
           aria-controls="acc-panel-3"
         >
-          <span class="font-medium text-zinc-900">Bagaimana cara mendaftar BPJS untuk penyandang disabilitas?</span>
+          <span class="font-medium bg-white dark:bg-white text-gray-900 dark:text-black">Bagaimana cara mendaftar BPJS untuk penyandang disabilitas?</span>
           <svg class="chev w-5 h-5 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/>
           </svg>
@@ -266,7 +337,7 @@
           id="acc-panel-3"
           role="region"
           aria-labelledby="acc-btn-3"
-          class="accordion-panel hidden px-4 pb-4 text-zinc-600 text-start"
+          class="accordion-panel hidden px-4 pb-4 bg-white dark:bg-white text-gray-900 dark:text-black text-start"
         >
          Proses pendaftaran sama seperti umum, namun Anda akan mendapat prioritas layanan dan bantuan <br> khusus dari petugas.
         </div>
@@ -276,12 +347,12 @@
       <div class="border bg-white rounded-xl shadow-sm">
         <button
           type="button"
-          class="accordion-trigger w-full flex items-center justify-between gap-3 p-4 text-left hover:bg-zinc-50 focus:outline-none focus-visible:ring rounded-xl"
+          class="accordion-trigger w-full flex items-center justify-between gap-3 p-4 text-left  focus:outline-none focus-visible:ring rounded-xl"
           id="acc-btn-4"
           aria-expanded="false"
           aria-controls="acc-panel-4"
         >
-          <span class="font-medium text-zinc-900">Fasilitas aksesibilitas apa saja yang tersedia di kantor pemerintahan?</span>
+          <span class="font-medium bg-white dark:bg-white text-gray-900 dark:text-black">Fasilitas aksesibilitas apa saja yang tersedia di kantor pemerintahan?</span>
           <svg class="chev w-5 h-5 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/>
           </svg>
@@ -290,7 +361,7 @@
           id="acc-panel-4"
           role="region"
           aria-labelledby="acc-btn-4"
-          class="accordion-panel hidden px-4 pb-4 text-zinc-600 text-start"
+          class="accordion-panel hidden px-4 pb-4 bg-white dark:bg-white text-gray-900 dark:text-black text-start"
         >
          Setiap kantor dilengkapi dengan ramp, toilet aksesibel, parkir khusus, dan beberapa kantor memiliki <br> penerjemah bahasa isyarat.
         </div>
@@ -299,13 +370,15 @@
        
     </section>
 
-    <section class="flex flex-col justify-center items-center mt-32 text-center">
-      <div>
+    <section class="flex flex-col justify-center items-center mt-32 text-center relative">
+      <img src="img/bgThings/bg-8.png" alt="" class="absolute -z-30 -top-[110%] right-0">
+
+      <div id="langkah">
         <h1 class="bg-clip-text text-transparent mb-7 bg-gradient-to-r from-[#036DA7] to-[#4AFF09] text-4xl poppins-semibold">Masih Butuh Bantuan?</h1>
         <p class="poppins-light">Tim kami siap membantu Anda mengakses layanan publik yang anda butuhkan</p>
-        <div class="flex gap-7 justify-center items-center mt-7">
-           <a href="tel:0182821" class="text-nowrap flex flex-nowrap gap-4">
-               <button class="bg-[#F5F4F4] flex justify-center font-semibold items-center py-2 w-[165px] rounded-md">
+        <div class="flex gap-7 justify-center items-center mt-7 ">
+           <a href="tel:0182821" class="text-nowrap flex flex-nowrap gap-4 ">
+               <button class="flex justify-center font-semibold items-center py-2 w-[165px] rounded-md bg-white dark:bg-white text-gray-900 dark:text-black">
                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
 </svg>
@@ -358,7 +431,7 @@
       <!-- Brand -->
       <div class="lg:col-span-2">
         <div class="flex items-start gap-4">
-          <div class="h-14 w-14 rounded-full bg-white flex items-center justify-center shadow">
+          <div class="h-14 w-14 rounded-full bg-[#fff] flex items-center justify-center shadow">
             <img src="/img/logo.png" alt="">
           </div>
           <div>
@@ -1094,7 +1167,7 @@
       const t = getTheme(d.jenis);
 
       return `
-        <article class="relative rounded-2xl border ${t.border} bg-white shadow-sm overflow-hidden">
+        <article class="relative rounded-2xl border ${t.border} bg-white shadow-sm overflow-hidden bg-white dark:bg-white text-gray-900 dark:text-black">
           <div class="pointer-events-none absolute inset-0 rounded-2xl ring-1 ${t.ring}"></div>
           <header class="px-6 pt-6">
             <div class="flex items-start justify-between gap-3">
@@ -1114,7 +1187,7 @@
             </span>
           </header>
 
-          <div class="px-6 py-5 space-y-4 text-gray-700">
+          <div class="px-6 py-5 space-y-4 text-gray-700 bg-white dark:bg-white text-gray-900 dark:text-black dark:fill-black">
             <div class="flex gap-3">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-none text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM19.5 10.5c0 7.5-7.5 11.25-7.5 11.25S4.5 18 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
@@ -1142,25 +1215,29 @@
 
             <div class="pt-2">
               <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ${t.accent}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M12 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm-1 5h2l1.5 3H20a1 1 0 1 1 0 2h-5.8l-.83 3.12a2 2 0 0 1-1.94 1.46H9a1 1 0 1 1 0-2h1.43l.58-2.18L9 11.5V18a1 1 0 1 1-2 0V9a2 2 0 0 1 2-2h2Z"/>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 ${t.accent}">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+</svg>
+
                 <h3 class="font-semibold text-gray-900">Fitur Aksesibilitas:</h3>
               </div>
               <div class="mt-3 flex flex-wrap gap-2">${akses}</div>
             </div>
           </div>
 
-          <div class="px-6 pb-6 pt-1 flex gap-3">
+          <div class="px-6 pb-6 pt-1 flex gap-3 bg-white dark:bg-white text-gray-900 dark:text-black">
             <a href="tel:${telHref}"
-               class="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 px-4 py-3 font-semibold text-gray-800 hover:bg-gray-50 active:scale-[.99]">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 0 0 2.25-2.25v-1.1a1.5 1.5 0 0 0-1.03-1.427l-3.42-1.14a1.5 1.5 0 0 0-1.6.45l-.8.95a12.02 12.02 0 0 1-5.78-5.78l.95-.8a1.5 1.5 0 0 0 .45-1.6l-1.14-3.42A1.5 1.5 0 0 0 5.6 2.25H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
-              </svg>
+               class="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 px-4 py-3 font-semibold bg-white dark:bg-white text-gray-900 dark:text-black hover:bg-gray-50 active:scale-[.99]">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+</svg>
+
               Hubungi
             </a>
-            <a href="#" data-id="${escapeHtml(d.id)}" aria-controls="detailModal"
-               class="btn-detail flex-1 inline-flex items-center justify-center rounded-xl ${t.cta} px-4 py-3 font-semibold text-white active:scale-[.99]">Lihat Detail</a>
+            <a href="wa.me/${telHref}" data-id="${escapeHtml(d.id)}" aria-controls="detailModal"
+               class="btn-detail flex-1 inline-flex items-center justify-center gap-2 rounded-xl ${t.cta} px-4 py-3 font-semibold text-white active:scale-[.99]">
+                <svg role="img" viewBox="0 0 24 24" class="size-6 fill-white" xmlns="http://www.w3.org/2000/svg"><title>WhatsApp</title><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+               Chat</a>
           </div>
         </article>
       `;
@@ -1217,7 +1294,6 @@
     }
 
     // ====== MODAL UTILS ======
-    const modalRoot = document.getElementById('detailModal');
     const modalInner = document.getElementById('modalContent');
 
     function modalTemplate(d) {
@@ -1262,7 +1338,7 @@
           </div>
         </div>
         <footer class="px-6 pb-6 pt-1 flex gap-3">
-          <a href="tel:${telHref}" class="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 px-4 py-3 font-semibold text-gray-800 hover:bg-gray-50">
+          <a href="tel:${telHref}" class="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 px-4 py-3 font-semibold text-gray-800 bg-white dark:bg-white text-gray-900 dark:text-black hover:bg-gray-50">
             Hubungi
           </a>
           <button class="flex-1 inline-flex items-center justify-center rounded-xl ${t.cta} px-4 py-3 font-semibold text-white" data-dismiss="modal">Tutup</button>

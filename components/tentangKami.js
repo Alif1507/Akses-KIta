@@ -1,9 +1,10 @@
 function tentangKami() {
   return $(`
-   <section class="flex items-center justify-around mt-24">
+   <section class="flex flex-col md:flex-row items-center justify-around mt-16 md:mt-24 px-4 gap-8 md:gap-4 opacity-0 transition-all duration-700" id="tentangKamiSection">
   <!-- Layanan -->
+  <img src="img/bgThings/bg-3.png" alt="" class="absolute -z-30 top-[60%] left-0">
 
-  <div class="flex flex-col relative justify-center items-center">
+  <div class="flex flex-col relative justify-center items-center" id="layananItem">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -19,7 +20,7 @@ function tentangKami() {
       />
     </svg>
     <div
-      class="absolute flex justify-center items-center w-[110px] h-[100px] p-3 rounded-full -z-10 bg-gradient-to-r from-[#C1E8EF] via-[#036DA7] to-[#4AFF09] text-[1px] top-0"
+      class="absolute flex justify-center items-center w-[110px] h-[100px] p-3 rounded-full -z-10 bg-gradient-to-r from-[#C1E8EF] via-[#036DA7] to-[#4AFF09] text-[1px] top-0 pulse-animation"
     >
       .
     </div>
@@ -28,7 +29,7 @@ function tentangKami() {
   </div>
 
   <!-- Aksesbilitas -->
-  <div class="flex flex-col relative justify-center items-center">
+  <div class="flex flex-col relative justify-center items-center" id="aksesibilitasItem">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -45,7 +46,7 @@ function tentangKami() {
     </svg>
 
     <div
-      class="absolute flex justify-center items-center w-[110px] h-[100px] p-3 rounded-full -z-10 bg-gradient-to-r from-[#C1E8EF] via-[#036DA7] to-[#4AFF09] text-[1px] top-0"
+      class="absolute flex justify-center items-center w-[110px] h-[100px] p-3 rounded-full -z-10 bg-gradient-to-r from-[#C1E8EF] via-[#036DA7] to-[#4AFF09] text-[1px] top-0 pulse-animation"
     >
       .
     </div>
@@ -54,7 +55,7 @@ function tentangKami() {
   </div>
 
   <!-- Lokasi -->
-  <div class="flex flex-col relative justify-center items-center">
+  <div class="flex flex-col relative justify-center items-center" id="lokasiItem">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -76,7 +77,7 @@ function tentangKami() {
     </svg>
 
     <div
-      class="absolute flex justify-center items-center w-[110px] h-[100px] p-3 rounded-full -z-10 bg-gradient-to-r from-[#C1E8EF] via-[#036DA7] to-[#4AFF09] text-[1px] top-0"
+      class="absolute flex justify-center items-center w-[110px] h-[100px] p-3 rounded-full -z-10 bg-gradient-to-r from-[#C1E8EF] via-[#036DA7] to-[#4AFF09] text-[1px] top-0 pulse-animation"
     >
       .
     </div>

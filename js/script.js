@@ -11,9 +11,19 @@ $(function () {
   $("#layanan").append(layanan());
   $("#keliling").append(keliling());
 
+  // Theme toggle functionality
+  $(document).on('click', '#themeToggle, #themeToggleMobile', function() {
+    if (document.documentElement.classList.contains('dark')) {
+      document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+    }
+  });
 });
 
-// Safer: works even if #faq is added/re-rendered later
+
 $("#faq").on("click", function () {
   $(this).toggleClass("bg-white");
   $(this).toggleClass("rounded-xl");
@@ -47,6 +57,76 @@ $("#faq").on("click", function () {
   $("#faqItem").toggleClass("opacity-0");
   $("#faqItem").removeClass("opacity-100");
 });
+
+$("#mobileMenuBtn").on("click", function() {
+  $("#mobileMenu").removeClass("hidden").addClass("flex").removeClass("opacity-0").addClass("opacity-100");
+  $("body").addClass("overflow-hidden");
+  console.log("pencet");
+  
+});
+
+$("#closeMenuBtn").on("click", function() {
+  $("#mobileMenu").removeClass("opacity-100").addClass("opacity-0");
+  setTimeout(function() {
+    $("#mobileMenu").removeClass("flex").addClass("hidden");
+    $("body").removeClass("overflow-hidden");
+  }, 300);
+});
+
+// Scroll animation for navbar
+$(window).scroll(function() {
+  if ($(window).scrollTop() > 50) {
+    $("nav").addClass("h-[70px] shadow-lg").removeClass("h-[96px]");
+  } else {
+    $("nav").removeClass("h-[70px] shadow-lg").addClass("h-[96px]");
+  }
+});
+
+// Animate sections on scroll
+function checkVisibility() {
+  const sections = ["#heroSection", "#tentangKamiSection", "#layananSection", "#kelilingSection"];
+  
+  sections.forEach(section => {
+    const $section = $(section);
+    if ($section.length) {
+      const sectionTop = $section.offset().top;
+      const windowHeight = $(window).height();
+      const scrollTop = $(window).scrollTop();
+      
+      if (scrollTop + windowHeight > sectionTop + 100) {
+        $section.addClass("opacity-100").removeClass("opacity-0");
+        
+        // Special case for hero image
+        if (section === "#heroSection") {
+          setTimeout(() => {
+            $("#heroImage").addClass("opacity-100").removeClass("opacity-0");
+          }, 300);
+        }
+        
+        // Animate tentang kami items
+        if (section === "#tentangKamiSection") {
+          const items = ["#layananItem", "#aksesibilitasItem", "#lokasiItem"];
+          items.forEach((item, index) => {
+            setTimeout(() => {
+              $(item).addClass("fade-in-up");
+            }, index * 200);
+          });
+        }
+        
+        // Animate controls container
+        if (section === "#layananSection") {
+          setTimeout(() => {
+            $("#controlsContainer").addClass("fade-in-up");
+          }, 300);
+        }
+      }
+    }
+  });
+}
+
+// Initial check and scroll event
+checkVisibility();
+$(window).on("scroll", checkVisibility);
 
 $(function () {
       const singleOpen = true;
