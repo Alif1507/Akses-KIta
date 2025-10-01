@@ -166,3 +166,54 @@ $(function () {
         }
       });
     });
+
+
+// Tambahkan setelah fungsi toggle tema yang sudah ada (sekitar baris 20)
+
+// Check for saved accessibility preference
+$(function() {
+  // Check for saved accessibility preferences
+  if (localStorage.accessibilityMode === 'true') {
+    document.documentElement.classList.add('accessibility-mode');
+    $('#accessibilityToggle, #accessibilityToggleMobile').addClass('accessibility-active');
+  }
+  
+  if (localStorage.highContrast === 'true') {
+    document.documentElement.classList.add('high-contrast');
+  }
+  
+  // Accessibility toggle functionality
+  $(document).on('click', '#accessibilityToggle, #accessibilityToggleMobile', function() {
+    // Toggle text size
+    document.documentElement.classList.toggle('accessibility-mode');
+    $('#accessibilityToggle, #accessibilityToggleMobile').toggleClass('accessibility-active');
+    
+    // Toggle high contrast
+    document.documentElement.classList.toggle('high-contrast');
+    
+    // Save preferences
+    localStorage.accessibilityMode = document.documentElement.classList.contains('accessibility-mode');
+    localStorage.highContrast = document.documentElement.classList.contains('high-contrast');
+  });
+});
+
+// Tambahkan setelah fungsi toggle tema yang sudah ada (sekitar baris 20)
+
+// Check for saved text size preference
+$(function() {
+  // Check for saved text size preference
+  if (localStorage.largeText === 'true') {
+    document.documentElement.classList.add('large-text');
+    $('#textSizeToggle, #textSizeToggleMobile').addClass('text-size-active');
+  }
+  
+  // Text size toggle functionality
+  $(document).on('click', '#textSizeToggle, #textSizeToggleMobile', function() {
+    // Toggle text size
+    document.documentElement.classList.toggle('large-text');
+    $('#textSizeToggle, #textSizeToggleMobile').toggleClass('text-size-active');
+    
+    // Save preference
+    localStorage.largeText = document.documentElement.classList.contains('large-text');
+  });
+});

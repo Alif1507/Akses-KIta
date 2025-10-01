@@ -103,7 +103,29 @@
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
-          d="M12 3v2m0 14v2m8-8h-2M6 12H4m12.364 6.364l-1.414-1.414M7.05 7.05 5.636 5.636m12.728 0-1.414 1.414M7.05 16.95l-1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z"
+          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+        />
+      </svg>
+    </button>
+    
+    <!-- Tombol Memperbesar Teks (fixed kanan atas, di bawah theme toggle) -->
+    <button
+      id="textSizeToggle"
+      class="fixed top-16 right-4 z-50 rounded-full p-2 bg-white/80 dark:bg-slate-800/80 border border-gray-200 dark:border-white/10 backdrop-blur shadow hover:scale-105 transition will-animate"
+      aria-label="Toggle ukuran teks"
+    >
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        class="h-6 w-6 text-gray-700 dark:text-gray-200" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        stroke="currentColor"
+      >
+        <path 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          stroke-width="2" 
+          d="M4 6h16M4 12h16m-7 6h7" 
         />
       </svg>
     </button>
@@ -909,6 +931,27 @@
         if (!btn) return;
         const targetId = btn.getAttribute("data-modal-target");
         if (targetId) openModalById(targetId);
+      });
+    </script>
+    
+    <!-- Script untuk fitur memperbesar teks -->
+    <script>
+      $(function() {
+        // Check for saved text size preference
+        if (localStorage.largeText === 'true') {
+          document.documentElement.classList.add('large-text');
+          $('#textSizeToggle').addClass('text-size-active');
+        }
+        
+        // Text size toggle functionality
+        $(document).on('click', '#textSizeToggle', function() {
+          // Toggle text size
+          document.documentElement.classList.toggle('large-text');
+          $('#textSizeToggle').toggleClass('text-size-active');
+          
+          // Save preference
+          localStorage.largeText = document.documentElement.classList.contains('large-text');
+        });
       });
     </script>
   </body>

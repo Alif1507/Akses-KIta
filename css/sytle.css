@@ -211,3 +211,105 @@ body {
       .animate-float-slow { animation: none !important }
       .will-animate { transition: none !important }
     }
+
+
+/* Tambahkan di bagian bawah file */
+
+/* Text size accessibility styles */
+.large-text {
+  /* Increase text size */
+  font-size: 120%;
+}
+
+.large-text h1 {
+  font-size: 2.5rem;
+}
+
+.large-text h2 {
+  font-size: 2rem;
+}
+
+.large-text h3 {
+  font-size: 1.75rem;
+}
+
+.large-text p, .large-text a, .large-text button, .large-text span {
+  font-size: 1.2rem;
+}
+
+.large-text input, .large-text textarea {
+  font-size: 1.2rem;
+}
+
+/* Active state for text size toggle button */
+.text-size-active {
+  background-color: #0388A7 !important;
+  color: white !important;
+}
+
+.text-size-active svg {
+  stroke: white !important;
+}
+
+/* High contrast mode */
+.high-contrast {
+  --contrast-bg: #000000;
+  --contrast-text: #ffffff;
+  --contrast-link: #ffff00;
+  --contrast-button: #ffff00;
+  --contrast-border: #ffffff;
+}
+
+.high-contrast body,
+.high-contrast nav,
+.high-contrast div,
+.high-contrast section,
+.high-contrast footer {
+  background-color: var(--contrast-bg) !important;
+  color: var(--contrast-text) !important;
+}
+
+.high-contrast a,
+.high-contrast button:not(.bg-blue-800):not(.bg-blue-700):not(.bg-blue-600):not(.bg-blue-500) {
+  color: var(--contrast-link) !important;
+}
+
+.high-contrast .bg-blue-800,
+.high-contrast .bg-blue-700,
+.high-contrast .bg-blue-600,
+.high-contrast .bg-blue-500 {
+  background-color: #0000aa !important;
+  color: var(--contrast-text) !important;
+}
+
+.high-contrast img {
+  filter: grayscale(100%) contrast(120%);
+}
+
+.high-contrast input,
+.high-contrast textarea,
+.high-contrast select {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 2px solid var(--contrast-border) !important;
+}
+
+.high-contrast svg {
+  fill: var(--contrast-text);
+  stroke: var(--contrast-text);
+}
+
+.high-contrast .border,
+.high-contrast .border-2 {
+  border-color: var(--contrast-border) !important;
+}
+
+/* Active state for accessibility toggle button */
+.accessibility-active {
+  background-color: #0388A7 !important;
+  color: white !important;
+}
+
+.accessibility-active svg {
+  stroke: white !important;
+}
